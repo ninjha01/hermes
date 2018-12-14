@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  hermes
 //
-//  Created by Nishant Jha on 12/14/18.
+//  Created by Nishant Jha on 12/14/2018
 //  Copyright © 2018 Nishant Jha. All rights reserved.
 //
 
