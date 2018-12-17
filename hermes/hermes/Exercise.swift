@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct Schedule {
+struct Exercise {
     var title: String
     var note: String
     var startTime: Date
@@ -17,10 +17,10 @@ struct Schedule {
 }
 
 // random events
-extension Schedule {
+extension Exercise {
     init(fromStartDate: Date) {
-        title = ["Meet Willard", "Buy a milk", "Read a book"].randomElement()!
-        note = ["hurry", "In office", "In New york city"].randomElement()!
+        title = ["Leg Raises"].randomElement()!
+        note = ["Legs"].randomElement()!
         categoryColor = [.red, .orange, .purple, .blue, .black].randomElement()!
         
         let day = [Int](0...27).randomElement()!
@@ -34,14 +34,14 @@ extension Schedule {
 }
 
 
-extension Schedule : Equatable {
-    static func ==(lhs: Schedule, rhs: Schedule) -> Bool {
+extension Exercise : Equatable {
+    static func ==(lhs: Exercise, rhs: Exercise) -> Bool {
         return lhs.startTime == rhs.startTime
     }
 }
 
-extension Schedule : Comparable {
-    static func <(lhs: Schedule, rhs: Schedule) -> Bool {
+extension Exercise : Comparable {
+    static func <(lhs: Exercise, rhs: Exercise) -> Bool {
         return lhs.startTime < rhs.startTime
     }
 }
