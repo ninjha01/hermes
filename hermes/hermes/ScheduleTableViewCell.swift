@@ -17,17 +17,21 @@ class ScheduleTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
     
-    var schedule: Schedule! {
+    var exercise: Exercise! {
         didSet {
-            titleLabel.text = schedule.title
-            noteLabel.text = schedule.note
+            titleLabel.text = exercise.title
+            noteLabel.text = exercise.description
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "HH:mm"
             
-            startTimeLabel.text = dateFormatter.string(from: schedule.startTime)
-            endTimeLabel.text = dateFormatter.string(from: schedule.endTime)
-            categoryLine.backgroundColor = schedule.categoryColor
+            startTimeLabel.text = dateFormatter.string(from: exercise.startDateTime)
+            endTimeLabel.text = dateFormatter.string(from: exercise.endDateTime)
+            if exercise.completed {
+                categoryLine.backgroundColor = .green
+            } else {
+                categoryLine.backgroundColor = .red
+            }
         }
     }
 }

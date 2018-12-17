@@ -1,5 +1,5 @@
 //
-//  Schedule.swift
+//  Exercise.swift
 //  hermes
 //
 //  Created by Nishant Jha on 12/14/2018
@@ -8,40 +8,32 @@
 
 import UIKit
 
-struct Exercise {
+class Exercise {
     var title: String
-    var note: String
-    var startTime: Date
-    var endTime: Date
-    var categoryColor: UIColor
-}
+    var description: String
+    var startDateTime: Date
+    var endDateTime: Date
+    var completed: Bool
+    var equipment: String
+    var primaryVideoFilename: String
+    var secondaryMultimediaFilenames: [String]
 
-// random events
-extension Exercise {
-    init(fromStartDate: Date) {
-        title = ["Leg Raises"].randomElement()!
-        note = ["Legs"].randomElement()!
-        categoryColor = [.red, .orange, .purple, .blue, .black].randomElement()!
-        
-        let day = [Int](0...27).randomElement()!
-        let hour = [Int](0...23).randomElement()!
-        let startDate = Calendar.current.date(byAdding: .day, value: day, to: fromStartDate)!
-        
-        
-        startTime = Calendar.current.date(byAdding: .hour, value: hour, to: startDate)!
-        endTime = Calendar.current.date(byAdding: .hour, value: 1, to: startTime)!
-    }
-}
+    init() {
+        self.title = "Leg Raises"
+        self.description = "Raise your legs"
+        self.startDateTime = Date()
+        self.endDateTime = Date() + 1
+        self.completed = false
+        self.equipment = ""
+        self.primaryVideoFilename = "output"
+        self.secondaryMultimediaFilenames = []
+    }    
 
-
-extension Exercise : Equatable {
     static func ==(lhs: Exercise, rhs: Exercise) -> Bool {
-        return lhs.startTime == rhs.startTime
+        return lhs.startDateTime == rhs.startDateTime
     }
-}
 
-extension Exercise : Comparable {
     static func <(lhs: Exercise, rhs: Exercise) -> Bool {
-        return lhs.startTime < rhs.startTime
+        return lhs.startDateTime < rhs.startDateTime
     }
 }

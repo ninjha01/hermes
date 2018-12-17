@@ -7,14 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		56D52EAC21C3E0FB00387664 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D52EAB21C3E0FB00387664 /* AppDelegate.swift */; };
-		56D52EAE21C3E0FB00387664 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D52EAD21C3E0FB00387664 /* ViewController.swift */; };
-		56D52EB121C3E0FB00387664 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D52EAF21C3E0FB00387664 /* Main.storyboard */; };
+		56A51B6421C7062B00EAF74B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6121C7062B00EAF74B /* User.swift */; };
+		56A51B6521C7062B00EAF74B /* Assesment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6221C7062B00EAF74B /* Assesment.swift */; };
+		56A51B6621C7062B00EAF74B /* Regimen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6321C7062B00EAF74B /* Regimen.swift */; };
+		56B0DA3621C40BA3003607C9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA2B21C40BA3003607C9 /* Extensions.swift */; };
+		56B0DA3821C40BA3003607C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56B0DA2D21C40BA3003607C9 /* Main.storyboard */; };
+		56B0DA3921C40BA3003607C9 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA2E21C40BA3003607C9 /* Exercise.swift */; };
+		56B0DA3A21C40BA3003607C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA2F21C40BA3003607C9 /* AppDelegate.swift */; };
+		56B0DA3B21C40BA3003607C9 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA3021C40BA3003607C9 /* CalendarViewController.swift */; };
+		56B0DA3C21C40BA3003607C9 /* ScheduleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56B0DA3121C40BA3003607C9 /* ScheduleTableViewCell.xib */; };
+		56B0DA3D21C40BA3003607C9 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA3221C40BA3003607C9 /* ScheduleTableViewCell.swift */; };
+		56B0DA3E21C40BA3003607C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56B0DA3321C40BA3003607C9 /* LaunchScreen.storyboard */; };
+		56B0DA3F21C40BA3003607C9 /* CellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56B0DA3421C40BA3003607C9 /* CellView.xib */; };
+		56B0DA4021C40BA3003607C9 /* CellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA3521C40BA3003607C9 /* CellView.swift */; };
+		56B0DA4221C41E49003607C9 /* ExerciseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA4121C41E49003607C9 /* ExerciseViewController.swift */; };
+		56B0DA4521C43D63003607C9 /* output.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 56B0DA4321C42A4A003607C9 /* output.mp4 */; };
 		56D52EB321C3E0FC00387664 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56D52EB221C3E0FC00387664 /* Assets.xcassets */; };
-		56D52EB621C3E0FC00387664 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56D52EB421C3E0FC00387664 /* LaunchScreen.storyboard */; };
 		56D52EC121C3E0FC00387664 /* hermesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D52EC021C3E0FC00387664 /* hermesTests.swift */; };
 		56D52ECC21C3E0FC00387664 /* hermesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D52ECB21C3E0FC00387664 /* hermesUITests.swift */; };
-		56D52EDD21C3EA9900387664 /* output.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 56D52EDC21C3E9C300387664 /* output.mp4 */; };
+		E56CBD70D0826E1C3E675500 /* Pods_hermes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58120B3AD841B57033A96D4A /* Pods_hermes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,20 +46,34 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15646232550C4C83DA166B2A /* Pods-hermes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hermes.release.xcconfig"; path = "Pods/Target Support Files/Pods-hermes/Pods-hermes.release.xcconfig"; sourceTree = "<group>"; };
+		56A51B6121C7062B00EAF74B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		56A51B6221C7062B00EAF74B /* Assesment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assesment.swift; sourceTree = "<group>"; };
+		56A51B6321C7062B00EAF74B /* Regimen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regimen.swift; sourceTree = "<group>"; };
+		56B0DA2A21C40BA3003607C9 /* hermes-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hermes-Bridging-Header.h"; sourceTree = "<group>"; };
+		56B0DA2B21C40BA3003607C9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		56B0DA2C21C40BA3003607C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56B0DA2D21C40BA3003607C9 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		56B0DA2E21C40BA3003607C9 /* Exercise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
+		56B0DA2F21C40BA3003607C9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		56B0DA3021C40BA3003607C9 /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		56B0DA3121C40BA3003607C9 /* ScheduleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleTableViewCell.xib; sourceTree = "<group>"; };
+		56B0DA3221C40BA3003607C9 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
+		56B0DA3321C40BA3003607C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		56B0DA3421C40BA3003607C9 /* CellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellView.xib; sourceTree = "<group>"; };
+		56B0DA3521C40BA3003607C9 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
+		56B0DA4121C41E49003607C9 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
+		56B0DA4321C42A4A003607C9 /* output.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = output.mp4; path = ../../output.mp4; sourceTree = "<group>"; };
 		56D52EA821C3E0FB00387664 /* hermes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hermes.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		56D52EAB21C3E0FB00387664 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		56D52EAD21C3E0FB00387664 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		56D52EB021C3E0FB00387664 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		56D52EB221C3E0FC00387664 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		56D52EB521C3E0FC00387664 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		56D52EB721C3E0FC00387664 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56D52EBC21C3E0FC00387664 /* hermesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hermesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D52EC021C3E0FC00387664 /* hermesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hermesTests.swift; sourceTree = "<group>"; };
 		56D52EC221C3E0FC00387664 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		56D52EC721C3E0FC00387664 /* hermesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hermesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		56D52ECB21C3E0FC00387664 /* hermesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hermesUITests.swift; sourceTree = "<group>"; };
 		56D52ECD21C3E0FC00387664 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		56D52EDC21C3E9C300387664 /* output.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = output.mp4; sourceTree = "<group>"; };
+		58120B3AD841B57033A96D4A /* Pods_hermes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hermes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B25090B329EC12A4568EA04 /* Pods-hermes.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hermes.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hermes/Pods-hermes.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E56CBD70D0826E1C3E675500 /* Pods_hermes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +109,8 @@
 				56D52EBF21C3E0FC00387664 /* hermesTests */,
 				56D52ECA21C3E0FC00387664 /* hermesUITests */,
 				56D52EA921C3E0FB00387664 /* Products */,
+				B950E97D04ECC5DA6DFEC315 /* Pods */,
+				B9962DC97D203F3230928898 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,13 +127,24 @@
 		56D52EAA21C3E0FB00387664 /* hermes */ = {
 			isa = PBXGroup;
 			children = (
-				56D52EAB21C3E0FB00387664 /* AppDelegate.swift */,
-				56D52EAD21C3E0FB00387664 /* ViewController.swift */,
-				56D52EAF21C3E0FB00387664 /* Main.storyboard */,
 				56D52EB221C3E0FC00387664 /* Assets.xcassets */,
-				56D52EB421C3E0FC00387664 /* LaunchScreen.storyboard */,
-				56D52EB721C3E0FC00387664 /* Info.plist */,
-				56D52EDC21C3E9C300387664 /* output.mp4 */,
+				56B0DA2F21C40BA3003607C9 /* AppDelegate.swift */,
+				56B0DA3521C40BA3003607C9 /* CellView.swift */,
+				56B0DA3421C40BA3003607C9 /* CellView.xib */,
+				56A51B6221C7062B00EAF74B /* Assesment.swift */,
+				56A51B6321C7062B00EAF74B /* Regimen.swift */,
+				56A51B6121C7062B00EAF74B /* User.swift */,
+				56B0DA2B21C40BA3003607C9 /* Extensions.swift */,
+				56B0DA2C21C40BA3003607C9 /* Info.plist */,
+				56B0DA3321C40BA3003607C9 /* LaunchScreen.storyboard */,
+				56B0DA2D21C40BA3003607C9 /* Main.storyboard */,
+				56B0DA4121C41E49003607C9 /* ExerciseViewController.swift */,
+				56B0DA2E21C40BA3003607C9 /* Exercise.swift */,
+				56B0DA3221C40BA3003607C9 /* ScheduleTableViewCell.swift */,
+				56B0DA3121C40BA3003607C9 /* ScheduleTableViewCell.xib */,
+				56B0DA3021C40BA3003607C9 /* CalendarViewController.swift */,
+				56B0DA2A21C40BA3003607C9 /* hermes-Bridging-Header.h */,
+				56B0DA4321C42A4A003607C9 /* output.mp4 */,
 			);
 			path = hermes;
 			sourceTree = "<group>";
@@ -128,6 +167,23 @@
 			path = hermesUITests;
 			sourceTree = "<group>";
 		};
+		B950E97D04ECC5DA6DFEC315 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7B25090B329EC12A4568EA04 /* Pods-hermes.debug.xcconfig */,
+				15646232550C4C83DA166B2A /* Pods-hermes.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B9962DC97D203F3230928898 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				58120B3AD841B57033A96D4A /* Pods_hermes.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +191,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56D52ED021C3E0FC00387664 /* Build configuration list for PBXNativeTarget "hermes" */;
 			buildPhases = (
+				CFD675BF9EF24D7493035138 /* [CP] Check Pods Manifest.lock */,
 				56D52EA421C3E0FB00387664 /* Sources */,
 				56D52EA521C3E0FB00387664 /* Frameworks */,
 				56D52EA621C3E0FB00387664 /* Resources */,
+				5BD6DFE5AB85CF19B21CC409 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,6 +254,7 @@
 				TargetAttributes = {
 					56D52EA721C3E0FB00387664 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					56D52EBB21C3E0FC00387664 = {
 						CreatedOnToolsVersion = 10.1;
@@ -232,10 +291,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56D52EDD21C3EA9900387664 /* output.mp4 in Resources */,
-				56D52EB621C3E0FC00387664 /* LaunchScreen.storyboard in Resources */,
+				56B0DA4521C43D63003607C9 /* output.mp4 in Resources */,
+				56B0DA3821C40BA3003607C9 /* Main.storyboard in Resources */,
+				56B0DA3C21C40BA3003607C9 /* ScheduleTableViewCell.xib in Resources */,
+				56B0DA3E21C40BA3003607C9 /* LaunchScreen.storyboard in Resources */,
+				56B0DA3F21C40BA3003607C9 /* CellView.xib in Resources */,
 				56D52EB321C3E0FC00387664 /* Assets.xcassets in Resources */,
-				56D52EB121C3E0FB00387664 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,13 +316,68 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5BD6DFE5AB85CF19B21CC409 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-hermes/Pods-hermes-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JTAppleCalendar.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hermes/Pods-hermes-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CFD675BF9EF24D7493035138 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hermes-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		56D52EA421C3E0FB00387664 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				56D52EAE21C3E0FB00387664 /* ViewController.swift in Sources */,
-				56D52EAC21C3E0FB00387664 /* AppDelegate.swift in Sources */,
+				56B0DA3A21C40BA3003607C9 /* AppDelegate.swift in Sources */,
+				56B0DA4221C41E49003607C9 /* ExerciseViewController.swift in Sources */,
+				56B0DA3D21C40BA3003607C9 /* ScheduleTableViewCell.swift in Sources */,
+				56A51B6621C7062B00EAF74B /* Regimen.swift in Sources */,
+				56A51B6521C7062B00EAF74B /* Assesment.swift in Sources */,
+				56B0DA4021C40BA3003607C9 /* CellView.swift in Sources */,
+				56A51B6421C7062B00EAF74B /* User.swift in Sources */,
+				56B0DA3921C40BA3003607C9 /* Exercise.swift in Sources */,
+				56B0DA3B21C40BA3003607C9 /* CalendarViewController.swift in Sources */,
+				56B0DA3621C40BA3003607C9 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,25 +411,6 @@
 			targetProxy = 56D52EC821C3E0FC00387664 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		56D52EAF21C3E0FB00387664 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				56D52EB021C3E0FB00387664 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		56D52EB421C3E0FC00387664 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				56D52EB521C3E0FC00387664 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		56D52ECE21C3E0FC00387664 /* Debug */ = {
@@ -434,8 +531,10 @@
 		};
 		56D52ED121C3E0FC00387664 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B25090B329EC12A4568EA04 /* Pods-hermes.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4V63CJ3CM;
 				INFOPLIST_FILE = hermes/Info.plist;
@@ -445,6 +544,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nishant..hermes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "hermes/hermes-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -452,8 +553,10 @@
 		};
 		56D52ED221C3E0FC00387664 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15646232550C4C83DA166B2A /* Pods-hermes.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4V63CJ3CM;
 				INFOPLIST_FILE = hermes/Info.plist;
@@ -463,6 +566,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nishant..hermes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "hermes/hermes-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
