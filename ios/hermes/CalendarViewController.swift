@@ -9,36 +9,35 @@
 import JTAppleCalendar
 
 class CalendarViewController: UIViewController {
-
-    // MARK: Outlets
+    
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
-    
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
+    var currentExercise: Exercise?
+    
+    var regimens: [Regimen] = [Regimen(), Regimen(), Regimen(), Regimen(), Regimen(), Regimen(),
+                               Regimen(), Regimen(), Regimen(), Regimen(), Regimen(), Regimen()]
     
     // MARK: DataSource
-    var scheduleGroup : [String: [Schedule]]? {
+    var exerciseGroup : [String: [Exercise]]? {
         didSet {
             calendarView.reloadData()
             tableView.reloadData()
         }
     }
     
-    var schedules: [Schedule] {
-        get {
-            guard let selectedDate = calendarView.selectedDates.first else {
-                return []
-            }
-            
-            guard let data = scheduleGroup?[self.formatter.string(from: selectedDate)] else {
-                return []
-            }
-            
-            return data.sorted()
+    var exercises: [Exercise] {
+        guard let selectedDate = calendarView.selectedDates.first else {
+            return []
         }
+        
+        guard let data = exerciseGroup?[self.formatter.string(from: selectedDate)] else {
+            return []
+        }
+        return data
     }
-
+    
     
     // MARK: Config
     let formatter = DateFormatter()
@@ -48,7 +47,7 @@ class CalendarViewController: UIViewController {
     let calendarCellIdentifier = "CellView"
     let scheduleCellIdentifier = "detail"
     
-    var iii: Date?
+    var monthFirstDate: Date?
     
     // MARK: Helpers
     var numOfRowIsSix: Bool {
@@ -68,7 +67,7 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupViewNibs()
         showTodayButton.target = self
         showTodayButton.action = #selector(showTodayWithAnimate)
@@ -98,7 +97,7 @@ class CalendarViewController: UIViewController {
         let myNib2 = UINib(nibName: "ScheduleTableViewCell", bundle: Bundle.main)
         tableView.register(myNib2, forCellReuseIdentifier: scheduleCellIdentifier)
     }
-
+    
     func setupViewsOfCalendar(from visibleDates: DateSegmentInfo) {
         guard let startDate = visibleDates.monthDates.first?.date else {
             return
@@ -109,8 +108,11 @@ class CalendarViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        let destinationVC = segue.destination as! ExerciseViewController
+        if segue.identifier == "cellToExercise" {
+            let destinationVC = segue.destination as! ExerciseViewController
+            destinationVC.delegate = self
+            destinationVC.exercise = currentExercise
+        }
     }
 }
 
@@ -136,7 +138,7 @@ extension CalendarViewController {
     
     func showToday(animate:Bool) {
         calendarView.scrollToDate(Date(), triggerScrollToDateDelegate: true, animateScroll: animate, preferredScrollPosition: nil, extraAddedOffset: 0) { [unowned self] in
-            self.getSchedule()
+            self.getExercise()
             self.calendarView.visibleDates {[unowned self] (visibleDates: DateSegmentInfo) in
                 self.setupViewsOfCalendar(from: visibleDates)
             }
@@ -160,21 +162,21 @@ extension CalendarViewController {
 
 // MARK: Prepere dataSource
 extension CalendarViewController {
-    func getSchedule() {
+    func getExercise() {
         if let startDate = calendarView.visibleDates().monthDates.first?.date  {
             let endDate = Calendar.current.date(byAdding: .month, value: 1, to: startDate)
-            getSchedule(fromDate: startDate, toDate: endDate!)
+            getExercise(fromDate: startDate, toDate: endDate!)
         }
     }
     
-    
-    func getSchedule(fromDate: Date, toDate: Date) {
-        var schedules: [Schedule] = []
-        for _ in 1...numOfRandomEvent {
-            schedules.append(Schedule(fromStartDate: fromDate))
+    func getExercise(fromDate: Date, toDate: Date) {
+        var exercises : [Exercise] = []
+        for regimen in regimens {
+            for exercise in regimen.exercises {
+                exercises.append(exercise)
+            }
         }
-        
-        scheduleGroup = schedules.group{self.formatter.string(from: $0.startTime)}
+        exerciseGroup = exercises.group{self.formatter.string(from: $0.startDateTime)}
     }
 }
 
@@ -197,8 +199,35 @@ extension CalendarViewController {
         handleCellTextColor(view: myCustomCell, cellState: cellState)
         handleCellSelection(view: myCustomCell, cellState: cellState)
         
-        if scheduleGroup?[formatter.string(from: cellState.date)] != nil {
+        if exerciseGroup?[formatter.string(from: cellState.date)] != nil {
             myCustomCell.eventView.isHidden = false
+            
+            var exercises : [Exercise] = []
+            for regimen in regimens {
+                for exercise in regimen.exercises {
+                    exercises.append(exercise)
+                }
+            }
+            var numCompleted = 0
+            var count = 0
+            for exercise in exercises {
+                if Calendar.current.isDate(cellState.date, inSameDayAs:exercise.startDateTime) {
+                    count += 1
+                    if exercise.completed {
+                        numCompleted += 1
+                    }
+                }
+            }
+            if numCompleted == count {
+                myCustomCell.eventView.backgroundColor = UIColor(red: 61, green: 149, blue: 37)
+            }
+            else if numCompleted == 0 {
+                myCustomCell.eventView.backgroundColor = UIColor(red:218, green:41, blue:28)
+            }
+            else {
+                myCustomCell.eventView.backgroundColor = UIColor(red:255, green:163, blue:0)
+            }
+
         }
         else {
             myCustomCell.eventView.isHidden = true
@@ -210,6 +239,8 @@ extension CalendarViewController {
     }
     
     func handleCellTextColor(view: CellView, cellState: CellState) {
+        
+        //HANDLE Cell COLOR HERE: If completed Exercise, green. If not, yellow, if past due, red
         if cellState.isSelected {
             view.dayLabel.textColor = UIColor.white
         }
@@ -268,13 +299,13 @@ extension CalendarViewController: JTAppleCalendarViewDelegate {
     
     func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
         setupViewsOfCalendar(from: visibleDates)
-        if visibleDates.monthDates.first?.date == iii {
+        if visibleDates.monthDates.first?.date == monthFirstDate {
             return
         }
         
-        iii = visibleDates.monthDates.first?.date
+        monthFirstDate = visibleDates.monthDates.first?.date
         
-        getSchedule()
+        getExercise()
         select(onVisibleDates: visibleDates)
         
         view.layoutIfNeeded()
@@ -302,19 +333,19 @@ extension CalendarViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: scheduleCellIdentifier, for: indexPath) as! ScheduleTableViewCell
         cell.selectionStyle = .none
-        cell.schedule = schedules[indexPath.row]
+        cell.exercise = exercises[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return schedules.count
+        return exercises.count
     }
 }
 
 // MARK: UITableViewDelegate
 extension CalendarViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let schedule = schedules[indexPath.row]
+        currentExercise = exercises[indexPath.row]
         performSegue(withIdentifier: "cellToExercise", sender: self)
     }
 }

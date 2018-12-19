@@ -13,18 +13,25 @@ import AVFoundation
 class ExerciseViewController: UIViewController {
     
     @IBOutlet weak var videoViewContainer: UIView!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var doneButton: UIButton!
+    var delegate: CalendarViewController?
     
     private var player: AVQueuePlayer?
+    var exercise: Exercise?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        playVideo()
+        initPrimaryVideo()
+        initDescription()
+        initDoneButton()
+        initSecondaryMultimedia()
+        debugPrint(exercise!.completed)
     }
     
-    func playVideo() {
-        
-        let mp4Name = "output"
+    func initPrimaryVideo() {
+        let mp4Name = self.exercise!.primaryVideoFilename
         let mp4URL = Bundle.main.url(forResource: mp4Name, withExtension: "mp4")
         let fileManager = FileManager.default
         if fileManager.fileExists(atPath: mp4URL!.absoluteString) {
@@ -48,5 +55,22 @@ class ExerciseViewController: UIViewController {
         // add the layer to the container view
         videoViewContainer.layer.addSublayer(layer)
         self.player!.play()
+    }
+    
+    func initDescription() {
+        self.descriptionTextView.text = self.exercise!.instructions
+    }
+    func initSecondaryMultimedia() {
+        debugPrint("No secondary media")
+    }
+    
+    func initDoneButton() {
+        doneButton.isEnabled = !exercise!.completed
+    }
+    
+    @IBAction func markExerciseDone(_ sender: Any) {
+        self.exercise!.completed = true
+        doneButton.isEnabled = false
+        delegate!.getExercise()
     }
 }
