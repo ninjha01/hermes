@@ -12,36 +12,46 @@ import AVFoundation
 
 class ExerciseViewController: UIViewController {
     
+    @IBOutlet weak var secondaryMediaView: UIView!
     @IBOutlet weak var videoViewContainer: UIView!
-    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var doneButton: UIButton!
+
+    @IBOutlet weak var descriptionTextView: UITextView!
+    
+    @IBOutlet weak var setTextView: UITextView!
+    @IBOutlet weak var repsTextView: UITextView!
+    @IBOutlet weak var intensityTextView: UITextView!
+    @IBOutlet weak var equipmentTextView: UITextView!
+    
     var delegate: CalendarViewController?
     
     private var player: AVQueuePlayer?
+    private var looper: AVPlayerLooper?
     var exercise: Exercise?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        initPrimaryVideo()
-        initDescription()
-        initDoneButton()
-        initSecondaryMultimedia()
-        debugPrint(exercise!.completed)
+        DispatchQueue.main.async() { //UI Thread
+            self.initNavbar()
+            self.initPrimaryVideo()
+            self.initSecondaryMultimedia()
+            self.initTextViews()
+            self.initDoneButton()
+            self.initSecondaryMultimedia()
+        }
+    }
+    
+    func initNavbar() {
+        self.navigationController!.navigationBar.topItem?.title = self.exercise?.title
     }
     
     func initPrimaryVideo() {
         let mp4Name = self.exercise!.primaryVideoFilename
         let mp4URL = Bundle.main.url(forResource: mp4Name, withExtension: "mp4")
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: mp4URL!.absoluteString) {
-            print("FILE AVAILABLE")
-        } else {
-            print("FILE NOT AVAILABLE")
-        }
         
         // initialize the video player with the url
         self.player = AVQueuePlayer(url: mp4URL!)
+        looper = AVPlayerLooper(player: self.player!, templateItem: AVPlayerItem(asset: AVAsset(url: mp4URL!)))
         
         // create a video layer for the player
         let layer: AVPlayerLayer = AVPlayerLayer(player: player)
@@ -57,11 +67,23 @@ class ExerciseViewController: UIViewController {
         self.player!.play()
     }
     
-    func initDescription() {
+    func initTextViews() {
         self.descriptionTextView.text = self.exercise!.instructions
+        self.descriptionTextView.sizeToFit()
+
+        self.setTextView.text = String (self.exercise!.sets)
+          self.repsTextView.text = String (self.exercise!.reps)
+          self.intensityTextView.text = self.exercise!.intensity
+          self.equipmentTextView.text = self.exercise!.equipment
     }
     func initSecondaryMultimedia() {
-        debugPrint("No secondary media")
+        if self.exercise!.secondaryMultimediaFilenames.count > 0 {
+            self.secondaryMediaView.isHidden = false
+            let filename = self.exercise!.secondaryMultimediaFilenames[0]
+            self.secondaryMediaView.backgroundColor = UIColor(patternImage: UIImage(named: filename)!)
+        } else {
+            self.secondaryMediaView.isHidden = true
+        }
     }
     
     func initDoneButton() {
