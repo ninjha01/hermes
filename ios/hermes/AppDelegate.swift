@@ -21,12 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForPushNotifications()
         //If launched from Notification...
         let notificationOption = launchOptions?[.remoteNotification]
-        if let notification = notificationOption as? [String: AnyObject],
-            let aps = notification["aps"] as? [String: AnyObject] {
-            let sb = UIStoryboard(name: "Main", bundle: nil)
-            let assesmentVC = sb.instantiateViewController(withIdentifier: "AssesmentVC") as! AssesmentViewController
-            assesmentVC.parseAPSForAssesment(aps: aps)
-            window?.rootViewController = assesmentVC
+        if let notification = notificationOption as? [String: AnyObject] {
+            launchAssesment(aps: notification)
         }
         return true
     }
@@ -43,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -85,13 +82,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Failed to register for remote notifications with error: \(error)")
     }
     
+    func launchAssesment(aps: [String: AnyObject]) {
+        //Get viewcontroller from navigation controller
+        let rootViewController = window?.rootViewController as! UINavigationController
+        let calendarVC = rootViewController.viewControllers[0] as! CalendarViewController
+        calendarVC.notificationPayload = aps
+        calendarVC.performSegue(withIdentifier: "toAssesment", sender: self)
+    }
     
+    func application( _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        guard let aps = userInfo["aps"] as? [String: AnyObject] else {
+            completionHandler(.failed)
+            return
+        }
+        launchAssesment(aps: aps)
+    }
 }
 
 //Recieve Banner even when app is in foreground
 extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        debugPrint("Trying to present badge!")
         completionHandler([.alert, .badge, .sound])
     }
 }

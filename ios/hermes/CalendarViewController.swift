@@ -10,6 +10,9 @@ import JTAppleCalendar
 
 class CalendarViewController: UIViewController {
     
+    //Used to launch assesment
+    var notificationPayload: [String: AnyObject]?
+    
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
@@ -112,6 +115,10 @@ class CalendarViewController: UIViewController {
             let destinationVC = segue.destination as! ExerciseViewController
             destinationVC.delegate = self
             destinationVC.exercise = currentExercise
+        }
+        if segue.identifier == "toAssesment" {
+            let destinationVC = segue.destination as! AssesmentViewController
+            destinationVC.parseAPSForAssesment(aps: self.notificationPayload!)
         }
     }
 }
