@@ -1,0 +1,53 @@
+[
+    {
+	"id": 1,
+	"progress": 0.66,
+	"endDateTime": 566888400,
+	"startDateTime": 566802000,
+	"exercises":
+	[
+	    {
+		"completed" : 0,
+		"endDateTime" : 566031600,
+		"equipment" : "Barbells,",
+		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		"intensity" : "Low,",
+		"primaryVideoFilename" : "output,",
+		"reps" : 9,
+		"secondaryMultimediaFilenames" : [],
+		"sets" : 10,
+		"startDateTime" : 566024400,
+		"title" : "Burpees,"
+	    },
+	    {
+		"completed" : 1,
+		"endDateTime" : 566413200,
+		"equipment" : "None,",
+		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		"intensity" : "High,",
+		"primaryVideoFilename" : "output,",
+		"reps" : 9,
+		"secondaryMultimediaFilenames" : [
+		    "secondary"
+		],
+		"sets" : 2,
+		"startDateTime" : 566370000,
+		"title" :"High Knees"
+	    },
+	    {
+		"completed" : 1,
+		"endDateTime" : 567158400,
+		"equipment" : "None,",
+		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		"intensity" : "Medium,",
+		"primaryVideoFilename" : "output,",
+		"reps" : 1,
+		"secondaryMultimediaFilenames" : [
+		],
+		"sets" : 8,
+		"startDateTime" : 567147600,
+		"title" : "Burpees,"
+	    }
+	]
+    }
+]
