@@ -7,6 +7,7 @@
 //
 
 import JTAppleCalendar
+import FirebaseAuth
 
 class CalendarViewController: UIViewController {
     
@@ -19,8 +20,7 @@ class CalendarViewController: UIViewController {
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
     var currentExercise: Exercise?
     
-    var regimens: [Regimen] = [Regimen(), Regimen(), Regimen(), Regimen(), Regimen(), Regimen(),
-                               Regimen(), Regimen(), Regimen(), Regimen(), Regimen(), Regimen()]
+    var regimens: [Regimen] = []
     
     // MARK: DataSource
     var exerciseGroup : [String: [Exercise]]? {
@@ -70,7 +70,16 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.getRegimensFromFirebase()
+        for regimen in self.regimens {
+            let jsonEncoder = JSONEncoder()
+            do {
+                let jsonData = try jsonEncoder.encode(regimen)
+                try debugPrint(JSONSerialization.jsonObject(with: jsonData, options: []) as? [String : Any])
+            } catch {}
+        }
+        //Set Navbar root
+        self.navigationController?.setViewControllers([self], animated: true)
         setupViewNibs()
         showTodayButton.target = self
         showTodayButton.action = #selector(showTodayWithAnimate)
@@ -119,6 +128,29 @@ class CalendarViewController: UIViewController {
         if segue.identifier == "toAssesment" {
             let destinationVC = segue.destination as! AssesmentViewController
             destinationVC.parseAPSForAssesment(aps: self.notificationPayload!)
+        }
+    }
+    
+    @IBAction func logOutAction(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+        }
+        catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let initial = storyboard.instantiateInitialViewController()
+        UIApplication.shared.keyWindow?.rootViewController = initial
+    }
+    
+    func getRegimensFromFirebase() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
+        userDocument.child("regimens").observeSingleEvent(of: .value, with: { (regimens) in
+            debugPrint(regimens.value)
+        }) { (error) in
+            print(error.localizedDescription)
         }
     }
 }

@@ -8,15 +8,22 @@
 
 import UIKit
 import UserNotifications
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var ref: DatabaseReference?
+    var deviceToken: String = "deadbeef"
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        //Firebase Config
+        FirebaseApp.configure()
+        self.ref = Database.database().reference()
+        //Notification configure
         UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
         registerForPushNotifications()
         //If launched from Notification...
@@ -71,9 +78,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tokenParts = deviceToken.map { data -> String in
             return String(format: "%02.2hhx", data)
         }
-        let token = tokenParts.joined()
+        self.deviceToken = tokenParts.joined()
+        
         // 2. Print device token to use for PNs payloads
-        print("Device Token: \(token)")
+        print("Device Token: \(self.deviceToken)")
     }
     
     //Push Notification Error Handling

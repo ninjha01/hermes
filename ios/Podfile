@@ -1,3 +1,4 @@
+# coding: utf-8
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '10.0'
 use_frameworks!
@@ -6,4 +7,7 @@ target 'hermes' do
     pod 'JTAppleCalendar', '~> 7.0'
     pod 'FMDB'
     pod 'DLRadioButton', '~> 1.4'
+    pod 'Firebase/Core'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Database'
 end
