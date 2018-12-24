@@ -15,8 +15,7 @@ class LaunchViewController: UIViewController {
         super.viewDidLoad()
         if Auth.auth().currentUser != nil {
             self.performSegue(withIdentifier: "alreadyLoggedIn", sender: nil)
-        }
-        // Do any additional setup after loading the view.
+        }        
     }
     
 

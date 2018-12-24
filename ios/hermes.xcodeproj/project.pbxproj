@@ -8,9 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		195A7B0A21D082EC00B9FDBC /* secondary.png in Resources */ = {isa = PBXBuildFile; fileRef = 195A7B0921D082EC00B9FDBC /* secondary.png */; };
-		56A51B6421C7062B00EAF74B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6121C7062B00EAF74B /* User.swift */; };
 		56A51B6521C7062B00EAF74B /* Assesment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6221C7062B00EAF74B /* Assesment.swift */; };
-		56A51B6621C7062B00EAF74B /* Regimen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6321C7062B00EAF74B /* Regimen.swift */; };
 		56B0DA3621C40BA3003607C9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA2B21C40BA3003607C9 /* Extensions.swift */; };
 		56B0DA3821C40BA3003607C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56B0DA2D21C40BA3003607C9 /* Main.storyboard */; };
 		56B0DA3921C40BA3003607C9 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA2E21C40BA3003607C9 /* Exercise.swift */; };
@@ -54,9 +52,7 @@
 /* Begin PBXFileReference section */
 		15646232550C4C83DA166B2A /* Pods-hermes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hermes.release.xcconfig"; path = "Pods/Target Support Files/Pods-hermes/Pods-hermes.release.xcconfig"; sourceTree = "<group>"; };
 		195A7B0921D082EC00B9FDBC /* secondary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = secondary.png; sourceTree = "<group>"; };
-		56A51B6121C7062B00EAF74B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		56A51B6221C7062B00EAF74B /* Assesment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assesment.swift; sourceTree = "<group>"; };
-		56A51B6321C7062B00EAF74B /* Regimen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regimen.swift; sourceTree = "<group>"; };
 		56B0DA2A21C40BA3003607C9 /* hermes-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hermes-Bridging-Header.h"; sourceTree = "<group>"; };
 		56B0DA2B21C40BA3003607C9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		56B0DA2C21C40BA3003607C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -119,8 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				56A51B6221C7062B00EAF74B /* Assesment.swift */,
-				56A51B6321C7062B00EAF74B /* Regimen.swift */,
-				56A51B6121C7062B00EAF74B /* User.swift */,
 				56B0DA2E21C40BA3003607C9 /* Exercise.swift */,
 			);
 			path = "Data Models";
@@ -435,11 +429,9 @@
 				56B0DA4221C41E49003607C9 /* ExerciseViewController.swift in Sources */,
 				56B0DA3D21C40BA3003607C9 /* ScheduleTableViewCell.swift in Sources */,
 				56BE891421CF18C10047BD4C /* RegisterViewController.swift in Sources */,
-				56A51B6621C7062B00EAF74B /* Regimen.swift in Sources */,
 				56BE891821CF18F20047BD4C /* LaunchViewController.swift in Sources */,
 				56A51B6521C7062B00EAF74B /* Assesment.swift in Sources */,
 				56B0DA4021C40BA3003607C9 /* CellView.swift in Sources */,
-				56A51B6421C7062B00EAF74B /* User.swift in Sources */,
 				56B0DA3921C40BA3003607C9 /* Exercise.swift in Sources */,
 				56E8707F21CD9151008379E1 /* AssesmentViewController.swift in Sources */,
 				56B0DA3B21C40BA3003607C9 /* CalendarViewController.swift in Sources */,

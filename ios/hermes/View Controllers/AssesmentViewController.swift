@@ -13,15 +13,10 @@ import FirebaseAuth
 class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     //TODO refactor to use this field or remove
-    var assesment: Assesment?
-    var id: String?
-    var painScore: Int = -1
+    var assesment: Assesment = Assesment()
     let painScoreData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    var painSites: [String]?
     var painSiteButtons: [DLRadioButton] = []
-    var questions: [String]?
     var questionButtons: [DLRadioButton] = []
-    var dateAssigned: Date?
     
     var dateFormatter: DateFormatter {
         let x = DateFormatter()
@@ -58,7 +53,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     func initPainSitesStack() {
         self.painSiteButtonsStack.translatesAutoresizingMaskIntoConstraints = false
-        for site in self.painSites! {
+        for site in self.assesment.painSites {
             //Build question
             let radioButton = DLRadioButton()
             radioButton.titleLabel!.font = UIFont.systemFont(ofSize: 18)
@@ -66,7 +61,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             radioButton.setTitleColor(color, for: []);
             radioButton.iconColor = color;
             radioButton.indicatorColor = color;
-            radioButton.setTitle(site, for: [])
+            radioButton.setTitle(site.key, for: [])
             radioButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             painSiteButtons.append(radioButton)
             self.painSiteButtonsStack.addArrangedSubview(radioButton)
@@ -80,7 +75,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     func initQuestionsStack() {
         self.questionsButtonStack.translatesAutoresizingMaskIntoConstraints = false
-        for question in self.questions! {
+        for question in self.assesment.questions {
             //Build question
             let radioButton = DLRadioButton()
             radioButton.titleLabel!.font = UIFont.systemFont(ofSize: 18)
@@ -88,7 +83,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             radioButton.setTitleColor(color, for: []);
             radioButton.iconColor = color;
             radioButton.indicatorColor = color;
-            radioButton.setTitle(question, for: [])
+            radioButton.setTitle(question.key, for: [])
             radioButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             radioButton.isIconSquare = true
             radioButton.isIconOnRight = false
@@ -123,21 +118,25 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         }
         let today = Date()
         let todayString = dateFormatter.string(from: today)
-        let dateAssignedString = dateFormatter.string(from: dateAssigned!)
+        let dateAssignedString = dateFormatter.string(from: self.assesment.dateAssigned)
         let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
         let newAssesmentNode = userDocument.child("assesments").childByAutoId()
-        newAssesmentNode.setValue(["id": self.id!, "painScore": painScore, "painSites": painSites, "questions": questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString])
+        newAssesmentNode.setValue(["key": self.assesment.key!, "painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString])
         
         //Return to Calendar
         self.navigationController?.popViewController(animated: true)
     }
     
     func parseAPSForAssesment(aps: [String: AnyObject]) {
-        self.id = aps["id"] as? String
-        self.title = aps["title"] as? String
-        self.painSites = aps["painSites"] as? [String]
-        self.questions = aps["questions"] as? [String]
-        self.dateAssigned = dateFormatter.date(from: aps["dateAssigned"] as! String)
+        self.assesment.key = aps["key"] as? String
+        self.assesment.title = aps["title"] as? String
+        for site in aps["painSites"] as! [String] {
+            self.assesment.painSites[site] = false
+        }
+        for question in aps["questions"] as! [String] {
+            self.assesment.questions[question] = false
+        }
+        self.assesment.dateAssigned = dateFormatter.date(from: aps["dateAssigned"] as! String)!
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -160,6 +159,6 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.painScore = painScoreData[row]
+        self.assesment.painScore = painScoreData[row]
     }
 }

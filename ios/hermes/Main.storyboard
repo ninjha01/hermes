@@ -120,10 +120,10 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="opQ-EY-a5k">
-                                <rect key="frame" x="0.0" y="440" width="375" height="328"/>
+                                <rect key="frame" x="0.0" y="440" width="375" height="312"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="detail" rowHeight="50" id="1O1-wf-mcq" customClass="ScheduleTableViewCell" customModule="hermes" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="detail" rowHeight="50" id="1O1-wf-mcq" customClass="ScheduleTableViewCell" customModule="hermes" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1O1-wf-mcq" id="cWU-GF-YTU">
@@ -138,12 +138,19 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wAU-Oq-Ah3">
-                                <rect key="frame" x="0.0" y="768" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="752" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Ssr-yC-Q4z"/>
                                 </constraints>
                                 <items>
                                     <barButtonItem title="Today" id="7za-QQ-CUI"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="2dA-HK-y3k"/>
+                                    <barButtonItem title="Refresh" id="YEn-Qv-SsZ" userLabel="Refresh">
+                                        <connections>
+                                            <action selector="refreshCalendar:" destination="BYZ-38-t0r" id="roY-Q8-ynh"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Fhs-E6-5am"/>
                                     <barButtonItem title="Log Out" id="G0e-iQ-bl3" userLabel="Log Out">
                                         <connections>
                                             <action selector="logOutAction:" destination="BYZ-38-t0r" id="25J-e7-Tz3"/>
@@ -159,7 +166,7 @@
                             <constraint firstItem="KIs-31-OD7" firstAttribute="top" secondItem="7EL-yy-FxA" secondAttribute="bottom" id="Ca4-0v-PU1"/>
                             <constraint firstAttribute="trailing" secondItem="KIs-31-OD7" secondAttribute="trailing" id="Hsx-MR-QGQ"/>
                             <constraint firstItem="tU0-zQ-TDE" firstAttribute="leading" secondItem="RHL-aL-CHT" secondAttribute="leading" id="I2t-Eg-LcN"/>
-                            <constraint firstAttribute="bottom" secondItem="wAU-Oq-Ah3" secondAttribute="bottom" id="MF4-Kg-Nl8"/>
+                            <constraint firstAttribute="bottom" secondItem="wAU-Oq-Ah3" secondAttribute="bottom" constant="16" id="MF4-Kg-Nl8"/>
                             <constraint firstItem="7EL-yy-FxA" firstAttribute="top" secondItem="RHL-aL-CHT" secondAttribute="bottom" id="MVR-bK-QAO"/>
                             <constraint firstItem="RHL-aL-CHT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Qqn-0s-VbH"/>
                             <constraint firstItem="tU0-zQ-TDE" firstAttribute="trailing" secondItem="RHL-aL-CHT" secondAttribute="trailing" id="XUI-cK-WBW"/>

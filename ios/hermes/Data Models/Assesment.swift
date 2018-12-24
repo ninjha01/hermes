@@ -9,22 +9,22 @@ import Foundation
 
 class Assesment: Codable{
 
-    var id: String?
+    var key: String?
+    var title: String?
     var painScore: Int?
-    var painSites: [String: Bool]?
-    var questions: [String: Bool]
+    var painSites: [String: Bool] = [:]
+    var questions: [String: Bool] = [:]
     var dateAssigned: Date
     var dateCompleted: Date?
 
     init() {
-        self.id = "sample Assesment"
-        self.questions = ["Can you wall 5 steps?": false]
-        self.dateAssigned = Date()
-        self.dateCompleted = Date() + 1
-    }
+        self.key = "sample key"
+        self.title = "Sample Test"
+        self.painScore = -1
+        self.dateAssigned = Date()    }
     
     init(id: String, painScore: Int, painSites: [String: Bool], questions: [String: Bool], dateAssigned: Date, dateCompleted: Date) {
-        self.id = id
+        self.key = id
         self.painScore = painScore
         self.painSites = painSites
         self.questions = questions

@@ -8,6 +8,7 @@
 
 import JTAppleCalendar
 import FirebaseAuth
+import FirebaseDatabase
 
 class CalendarViewController: UIViewController {
     
@@ -19,8 +20,7 @@ class CalendarViewController: UIViewController {
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
     var currentExercise: Exercise?
-    
-    var regimens: [Regimen] = []
+    var remoteExercises: [Exercise] = []
     
     // MARK: DataSource
     var exerciseGroup : [String: [Exercise]]? {
@@ -70,8 +70,7 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.getRegimensFromFirebase()
-        self.getExercise()
+        self.getExercisesFromFirebase()
         //Set Navbar root
         self.navigationController?.setViewControllers([self], animated: true)
         setupViewNibs()
@@ -138,46 +137,44 @@ class CalendarViewController: UIViewController {
         UIApplication.shared.keyWindow?.rootViewController = initial
     }
     
-    func getRegimensFromFirebase() {
+    func getExercisesFromFirebase() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
-        debugPrint("Remote Regimens: ")
-        userDocument.child("regimens").observeSingleEvent(of: .value, with: { (regimens) in
-            let regimensWrapper = regimens.value as! NSArray
+        userDocument.child("exercises").observeSingleEvent(of: .value, with: { (firebaseExerciseData) in
             let firebaseDateFormatString = "yyyy-MM-dd HH:mm"
             let firebaseDateFormatter = DateFormatter()
             firebaseDateFormatter.dateFormat = firebaseDateFormatString
-            for regimenData in regimensWrapper {
-                let regimenDataDict = regimenData as! [String: AnyObject]
-                let exerciseDataArray = regimenDataDict["exercises"] as! [[String: AnyObject]]
-                var newExerciseArray: [Exercise] = []
-                for exerciseData in exerciseDataArray {
-                    debugPrint(exerciseData)
-                    let id = exerciseData["id"] as! String
-                    let title =  exerciseData["title"] as! String
-                    let instructions =  exerciseData["instructions"] as! String
-                    let startDateTime =  firebaseDateFormatter.date(from: exerciseData["startDateTime"] as! String)!
-                    let endDateTime =  firebaseDateFormatter.date(from: exerciseData["endDateTime"] as! String)!
-                    let completed =  exerciseData["completed"] as! Bool
-                    let primaryVideoFilename =  exerciseData["primaryVideoFilename"] as! String
-                    let secondaryMultimediaFilenames =  exerciseData["secondaryMultimediaFilenames"] as? [String] ?? []
-                    let sets =  exerciseData["sets"] as! Int
-                    let reps =  exerciseData["reps"] as! Int
-                    let intensity =  exerciseData["intensity"] as! String
-                    let equipment =  exerciseData["equipment"] as! String
-                    let newExercise = Exercise(id: id, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoFilename: primaryVideoFilename, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, intensity: intensity, equipment: equipment)
-                    newExerciseArray.append(newExercise)
-                }
-                let id = regimenDataDict["id"] as! String
-                let title = regimenDataDict["title"] as! String
-                let startDateTime =  firebaseDateFormatter.date(from: regimenDataDict["startDateTime"] as! String)!
-                let endDateTime =  firebaseDateFormatter.date(from: regimenDataDict["endDateTime"] as! String)!
-                let newRegimen = Regimen(id: id, title: title, exercises: newExerciseArray, startDateTime: startDateTime, endDateTime: endDateTime)
-                self.regimens.append(newRegimen)
+            for child in firebaseExerciseData.children {
+                let exercise = child as! DataSnapshot
+                let key = exercise.key
+                let exerciseData = exercise.value as! [String: AnyObject]
+                let title =  exerciseData["title"] as! String
+                let instructions =  exerciseData["instructions"] as! String
+                let startDateTime =  firebaseDateFormatter.date(from: exerciseData["startDateTime"] as! String)!
+                let endDateTime =  firebaseDateFormatter.date(from: exerciseData["endDateTime"] as! String)!
+                let completed =  exerciseData["completed"] as! Bool
+                let primaryVideoFilename =  exerciseData["primaryVideoFilename"] as! String
+                let secondaryMultimediaFilenames =  exerciseData["secondaryMultimediaFilenames"] as? [String] ?? []
+                let sets =  exerciseData["sets"] as! Int
+                let reps =  exerciseData["reps"] as! Int
+                let intensity =  exerciseData["intensity"] as! String
+                let equipment =  exerciseData["equipment"] as! String
+                let newExercise = Exercise(key: key, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoFilename: primaryVideoFilename, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, intensity: intensity, equipment: equipment)
+                self.remoteExercises.append(newExercise)
             }
         }) { (error) in
             print(error.localizedDescription)
         }
+    }
+    
+    //Refresh Button
+    @IBAction func refreshCalendar(_ sender: Any) {
+        self.getExercise()
+        self.calendarView.visibleDates {[unowned self] (visibleDates: DateSegmentInfo) in
+            self.setupViewsOfCalendar(from: visibleDates)
+        }
+        
+        self.adjustCalendarViewHeight()
     }
 }
 
@@ -212,6 +209,8 @@ extension CalendarViewController {
             self.calendarView.selectDates([Date()])
         }
     }
+    
+    
 }
 
 // MARK: Dynamic CalendarView's height
@@ -225,7 +224,7 @@ extension CalendarViewController {
     }
 }
 
-// MARK: Prepere dataSource
+// MARK: Prepare dataSource
 extension CalendarViewController {
     func getExercise() {
         if let startDate = calendarView.visibleDates().monthDates.first?.date  {
@@ -235,13 +234,7 @@ extension CalendarViewController {
     }
     
     func getExercise(fromDate: Date, toDate: Date) {
-        var exercises : [Exercise] = []
-        for regimen in regimens {
-            for exercise in regimen.exercises {
-                exercises.append(exercise)
-            }
-        }
-        exerciseGroup = exercises.group{self.formatter.string(from: $0.startDateTime)}
+        exerciseGroup = self.remoteExercises.group{self.formatter.string(from: $0.startDateTime)}
     }
 }
 
@@ -264,18 +257,13 @@ extension CalendarViewController {
         handleCellTextColor(view: myCustomCell, cellState: cellState)
         handleCellSelection(view: myCustomCell, cellState: cellState)
         
-        if exerciseGroup?[formatter.string(from: cellState.date)] != nil {
+        let relevantExercises = exerciseGroup?[formatter.string(from: cellState.date)]
+        if relevantExercises != nil {
             myCustomCell.eventView.isHidden = false
             
-            var exercises : [Exercise] = []
-            for regimen in regimens {
-                for exercise in regimen.exercises {
-                    exercises.append(exercise)
-                }
-            }
             var numCompleted = 0
             var count = 0
-            for exercise in exercises {
+            for exercise in relevantExercises! {
                 if Calendar.current.isDate(cellState.date, inSameDayAs:exercise.startDateTime) {
                     count += 1
                     if exercise.completed {
@@ -283,16 +271,14 @@ extension CalendarViewController {
                     }
                 }
             }
-            if numCompleted == count {
-                myCustomCell.eventView.backgroundColor = UIColor(red: 61, green: 149, blue: 37)
-            }
-            else if numCompleted == 0 {
+            if numCompleted == 0 && count > 0 {
                 myCustomCell.eventView.backgroundColor = UIColor(red:218, green:41, blue:28)
             }
-            else {
+            else if numCompleted == count {
+                myCustomCell.eventView.backgroundColor = UIColor(red: 61, green: 149, blue: 37)
+            } else {
                 myCustomCell.eventView.backgroundColor = UIColor(red:255, green:163, blue:0)
             }
-
         }
         else {
             myCustomCell.eventView.isHidden = true
@@ -305,7 +291,6 @@ extension CalendarViewController {
     
     func handleCellTextColor(view: CellView, cellState: CellState) {
         
-        //HANDLE Cell COLOR HERE: If completed Exercise, green. If not, yellow, if past due, red
         if cellState.isSelected {
             view.dayLabel.textColor = UIColor.white
         }
@@ -411,6 +396,7 @@ extension CalendarViewController : UITableViewDataSource {
 extension CalendarViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         currentExercise = exercises[indexPath.row]
+        debugPrint(currentExercise!)
         performSegue(withIdentifier: "cellToExercise", sender: self)
     }
 }

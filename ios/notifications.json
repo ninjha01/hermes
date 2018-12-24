@@ -1,10 +1,12 @@
 {"aps":
  {
+     "key": "JIbaAfe2Hl",
      "title": "Sample Assesment",
      "alert":"You have a new assesment!",
      "badge":1,
      "sound":"default",
      "painSites": ["Head", "Shoulders", "Knees", "Toes"],
-     "trueFalseQuestions": ["Are you able to walk five feet unaided?", "Can you touch your toes?", "Can you stand on one foot for more than 1 minute?"]
+     "questions": ["Are you able to walk five feet unaided?", "Can you touch your toes?", "Can you stand on one foot for more than 1 minute?"],
+     "dateAssigned": "2018-12-23"
  }
 }

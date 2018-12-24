@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 import AVKit
 import AVFoundation
 
 class ExerciseViewController: UIViewController {
+
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     @IBOutlet weak var secondaryMediaView: UIView!
     @IBOutlet weak var videoViewContainer: UIView!
@@ -92,7 +95,11 @@ class ExerciseViewController: UIViewController {
     
     @IBAction func markExerciseDone(_ sender: Any) {
         self.exercise!.completed = true
+        debugPrint("Back to Calendar")
+        debugPrint(self.exercise)
+        delegate!.currentExercise?.completed = true
         doneButton.isEnabled = false
-        delegate!.getExercise()
+        let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
+        userDocument.child("exercises").child(self.exercise!.key).updateChildValues(["completed": true])
     }
 }
