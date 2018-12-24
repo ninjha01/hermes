@@ -8,18 +8,27 @@
 import Foundation
 
 struct Regimen: Codable {
-
+    var id: String
+    var title: String
     var exercises: [Exercise]
     var startDateTime: Date
     var endDateTime: Date
-    var progress: Float
 
     init() {
+        self.id = "sampleRegimenID"
+        self.title = "Test"
         self.exercises = [Exercise(), Exercise(), Exercise()]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         self.startDateTime = dateFormatter.date(from: "2018-12-18")!
         self.endDateTime = dateFormatter.date(from: "2018-12-19")!
-        self.progress = 0.00
+    }
+    
+    init(id: String, title: String, exercises: [Exercise], startDateTime: Date, endDateTime: Date) {
+        self.id = id
+        self.title = title
+        self.exercises = exercises
+        self.startDateTime = startDateTime
+        self.endDateTime = endDateTime
     }
 }

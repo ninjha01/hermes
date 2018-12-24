@@ -55,7 +55,7 @@ class RegisterViewController: UIViewController {
     
     func addUserToFirestore(authResult: AuthDataResult) {
         let userDocument = appDelegate.ref!.child("users").child(authResult.user.uid)
-        userDocument.setValue(["email": authResult.user.email,
+        userDocument.updateChildValues(["email": authResult.user.email,
                                "deviceToken": appDelegate.deviceToken])
     }
 }

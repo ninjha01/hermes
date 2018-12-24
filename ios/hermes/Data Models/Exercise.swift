@@ -9,6 +9,7 @@
 import UIKit
 
 struct Exercise: Codable {
+    var id: String
     var title: String
     var instructions: String
     var startDateTime: Date
@@ -22,6 +23,7 @@ struct Exercise: Codable {
     var equipment: String
 
     init() {
+        self.id = "sample Exercise"
         self.title = ["Leg Raises", "Planking", "Squats", "Pushups", "Burpees", "Leg Press", "Bicep Curls", "Jumping Jacks", "High Knees"].randomElement()!
         self.instructions = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         
@@ -38,7 +40,22 @@ struct Exercise: Codable {
         self.reps = [1,2,3,4,5,6,7,8,9,10].randomElement()!
         self.intensity = ["High", "Medium", "Low"].randomElement()!
         self.equipment = ["None", "Barbells", "Yoga Mat", "Foam Roller"].randomElement()!
-    }    
+    }
+    
+    init(id: String, title: String, instructions: String, startDateTime: Date, endDateTime: Date, completed: Bool, primaryVideoFilename: String, secondaryMultimediaFilenames: [String], sets: Int, reps: Int, intensity: String, equipment: String) {
+        self.id = id
+        self.title = title
+        self.instructions = instructions
+        self.startDateTime = startDateTime
+        self.endDateTime = endDateTime
+        self.completed = completed
+        self.primaryVideoFilename = primaryVideoFilename
+        self.secondaryMultimediaFilenames = secondaryMultimediaFilenames
+        self.sets = sets
+        self.reps = reps
+        self.intensity = intensity
+        self.equipment = equipment
+    }
 
     static func ==(lhs: Exercise, rhs: Exercise) -> Bool {
         return lhs.startDateTime == rhs.startDateTime

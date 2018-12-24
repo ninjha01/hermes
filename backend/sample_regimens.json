@@ -1,53 +1,54 @@
-[
-    {
-	"id": 1,
-	"progress": 0.66,
-	"endDateTime": 566888400,
-	"startDateTime": 566802000,
-	"exercises":
-	[
-	    {
-		"completed" : 0,
-		"endDateTime" : 566031600,
-		"equipment" : "Barbells,",
-		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		"intensity" : "Low,",
-		"primaryVideoFilename" : "output,",
-		"reps" : 9,
-		"secondaryMultimediaFilenames" : [],
-		"sets" : 10,
-		"startDateTime" : 566024400,
-		"title" : "Burpees,"
-	    },
-	    {
-		"completed" : 1,
-		"endDateTime" : 566413200,
-		"equipment" : "None,",
-		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		"intensity" : "High,",
-		"primaryVideoFilename" : "output,",
-		"reps" : 9,
-		"secondaryMultimediaFilenames" : [
-		    "secondary"
-		],
-		"sets" : 2,
-		"startDateTime" : 566370000,
-		"title" :"High Knees"
-	    },
-	    {
-		"completed" : 1,
-		"endDateTime" : 567158400,
-		"equipment" : "None,",
-		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		"intensity" : "Medium,",
-		"primaryVideoFilename" : "output,",
-		"reps" : 1,
-		"secondaryMultimediaFilenames" : [
-		],
-		"sets" : 8,
-		"startDateTime" : 567147600,
-		"title" : "Burpees,"
-	    }
-	]
+{
+    "users" : {
+	"8mXQ2A47r0VTIMRGkcRZ87QFxMd2" : {
+	    "deviceToken" : "deadbeef",
+	    "email" : "ninjha01@gmail.com",
+	    "regimens" : [ {
+		"id": "Zr3gsj0xRUwBfFUdT9Ow",
+		"endDateTime" : "2018-12-30 00:00",
+		"exercises" : [ {
+		    "id": "yuPrRM9nsd",
+		    "completed" : 0,
+		    "endDateTime" : "2018-12-01 08:00",
+		    "equipment" : "Barbells",
+		    "instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		    "intensity" : "Low",
+		    "primaryVideoFilename" : "output",
+		    "secondaryMultimediaFilenames" : [],
+		    "reps" : 9,
+		    "sets" : 10,
+		    "startDateTime" : "2018-12-01 14:00",
+		    "title" : "Burpees"
+		}, {
+		    "id": "kGke8AdGhj",
+		    "completed" : 1,
+		    "endDateTime" : "2018-12-24 08:00",
+		    "equipment" : "None",
+		    "instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		    "intensity" : "High",
+		    "primaryVideoFilename" : "output",
+		    "reps" : 9,
+		    "secondaryMultimediaFilenames" : [ "secondary" ],
+		    "sets" : 2,
+		    "startDateTime" : "2018-12-24 14:00",
+		    "title" : "High Knees"
+		}, {
+		    "id": "qJZm7bRCrh",
+		    "completed" : 1,
+		    "endDateTime" : "2018-12-30 08:00",
+		    "equipment" : "None",
+		    "instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		    "intensity" : "Medium",
+		    "primaryVideoFilename" : "output",
+		    "secondaryMultimediaFilenames" : [ "secondary" ],
+		    "reps" : 1,
+		    "sets" : 8,
+		    "startDateTime" : "2018-12-30 17:00",
+		    "title" : "Burpees"
+		} ],
+		"title": "Test1",
+		"startDateTime" : "2018-12-01 00:00"
+	    } ]
+	}
     }
-]
+}

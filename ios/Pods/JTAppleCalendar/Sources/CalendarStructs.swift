@@ -62,9 +62,6 @@ public struct CellState {
     /// Shows if a cell's selection/deselection was done either programatically or by the user
     /// This variable is guranteed to be non-nil inside of a didSelect/didDeselect function
     public var selectionType: SelectionType? = nil
-    //Nishant edits
-    //returns the total progress of the tasks on this day
-    //public var progress: Float
 }
 
 /// Defines the parameters which configures the calendar.

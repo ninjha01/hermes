@@ -8,17 +8,26 @@
 
 import UIKit
 import DLRadioButton
+import FirebaseAuth
 
 class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     //TODO refactor to use this field or remove
     var assesment: Assesment?
+    var id: String?
     var painScore: Int = -1
     let painScoreData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     var painSites: [String]?
     var painSiteButtons: [DLRadioButton] = []
-    var trueFalseQuestions: [String]?
-    var trueFalseQuestionButtons: [DLRadioButton] = []
+    var questions: [String]?
+    var questionButtons: [DLRadioButton] = []
+    var dateAssigned: Date?
+    
+    var dateFormatter: DateFormatter {
+        let x = DateFormatter()
+        x.dateFormat = "yyyy-MM-dd"
+        return x
+    }
     
     @IBOutlet weak var painScoreLabel: UILabel!
     @IBOutlet weak var painScorePicker: UIPickerView!
@@ -71,7 +80,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     func initQuestionsStack() {
         self.questionsButtonStack.translatesAutoresizingMaskIntoConstraints = false
-        for question in self.trueFalseQuestions! {
+        for question in self.questions! {
             //Build question
             let radioButton = DLRadioButton()
             radioButton.titleLabel!.font = UIFont.systemFont(ofSize: 18)
@@ -84,11 +93,11 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             radioButton.isIconSquare = true
             radioButton.isIconOnRight = false
             radioButton.titleLabel?.lineBreakMode = .byWordWrapping
-            trueFalseQuestionButtons.append(radioButton)
+            questionButtons.append(radioButton)
             self.questionsButtonStack.addArrangedSubview(radioButton)
         }
-        let firstButton = trueFalseQuestionButtons[0]
-        firstButton.otherButtons =  Array(trueFalseQuestionButtons.dropFirst())
+        let firstButton = questionButtons[0]
+        firstButton.otherButtons =  Array(questionButtons.dropFirst())
         firstButton.isMultipleSelectionEnabled = true
         self.questionsButtonStack.sizeToFit()
         self.questionsButtonStack.setNeedsDisplay()
@@ -99,33 +108,36 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     }
     
     @IBAction func logResults(_ sender: Any) {
-        debugPrint("Pain Score: " + String(self.painScore))
-        
         let selectedPainButtons = self.painSiteButtons[0].selectedButtons()
-        var painSites = ""
+        var painSites : [String: Bool] = [:]
         for button in selectedPainButtons {
-            painSites += button.title(for: [])! + " "
+            painSites[button.title(for: [])!] = true
         }
-        debugPrint("Pain Sites: " + painSites)
-        
-        var questions = ""
-        for button in trueFalseQuestionButtons {
-            questions += button.title(for: [])! + " : "
+        var questions: [String: Bool] = [:]
+        for button in questionButtons {
             if button.isSelected {
-                questions += "Yes | "
+               questions[button.title(for: [])!] = true
             } else {
-                questions += "No | "
+                questions[button.title(for: [])!] = false
             }
         }
-        debugPrint("Questions: " + questions)
+        let today = Date()
+        let todayString = dateFormatter.string(from: today)
+        let dateAssignedString = dateFormatter.string(from: dateAssigned!)
+        let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
+        let newAssesmentNode = userDocument.child("assesments").childByAutoId()
+        newAssesmentNode.setValue(["id": self.id!, "painScore": painScore, "painSites": painSites, "questions": questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString])
+        
         //Return to Calendar
         self.navigationController?.popViewController(animated: true)
     }
     
     func parseAPSForAssesment(aps: [String: AnyObject]) {
+        self.id = aps["id"] as? String
         self.title = aps["title"] as? String
         self.painSites = aps["painSites"] as? [String]
-        self.trueFalseQuestions = aps["trueFalseQuestions"] as? [String]
+        self.questions = aps["questions"] as? [String]
+        self.dateAssigned = dateFormatter.date(from: aps["dateAssigned"] as! String)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {

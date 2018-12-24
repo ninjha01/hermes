@@ -71,13 +71,7 @@ class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.getRegimensFromFirebase()
-        for regimen in self.regimens {
-            let jsonEncoder = JSONEncoder()
-            do {
-                let jsonData = try jsonEncoder.encode(regimen)
-                try debugPrint(JSONSerialization.jsonObject(with: jsonData, options: []) as? [String : Any])
-            } catch {}
-        }
+        self.getExercise()
         //Set Navbar root
         self.navigationController?.setViewControllers([self], animated: true)
         setupViewNibs()
@@ -147,8 +141,40 @@ class CalendarViewController: UIViewController {
     func getRegimensFromFirebase() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
+        debugPrint("Remote Regimens: ")
         userDocument.child("regimens").observeSingleEvent(of: .value, with: { (regimens) in
-            debugPrint(regimens.value)
+            let regimensWrapper = regimens.value as! NSArray
+            let firebaseDateFormatString = "yyyy-MM-dd HH:mm"
+            let firebaseDateFormatter = DateFormatter()
+            firebaseDateFormatter.dateFormat = firebaseDateFormatString
+            for regimenData in regimensWrapper {
+                let regimenDataDict = regimenData as! [String: AnyObject]
+                let exerciseDataArray = regimenDataDict["exercises"] as! [[String: AnyObject]]
+                var newExerciseArray: [Exercise] = []
+                for exerciseData in exerciseDataArray {
+                    debugPrint(exerciseData)
+                    let id = exerciseData["id"] as! String
+                    let title =  exerciseData["title"] as! String
+                    let instructions =  exerciseData["instructions"] as! String
+                    let startDateTime =  firebaseDateFormatter.date(from: exerciseData["startDateTime"] as! String)!
+                    let endDateTime =  firebaseDateFormatter.date(from: exerciseData["endDateTime"] as! String)!
+                    let completed =  exerciseData["completed"] as! Bool
+                    let primaryVideoFilename =  exerciseData["primaryVideoFilename"] as! String
+                    let secondaryMultimediaFilenames =  exerciseData["secondaryMultimediaFilenames"] as? [String] ?? []
+                    let sets =  exerciseData["sets"] as! Int
+                    let reps =  exerciseData["reps"] as! Int
+                    let intensity =  exerciseData["intensity"] as! String
+                    let equipment =  exerciseData["equipment"] as! String
+                    let newExercise = Exercise(id: id, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoFilename: primaryVideoFilename, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, intensity: intensity, equipment: equipment)
+                    newExerciseArray.append(newExercise)
+                }
+                let id = regimenDataDict["id"] as! String
+                let title = regimenDataDict["title"] as! String
+                let startDateTime =  firebaseDateFormatter.date(from: regimenDataDict["startDateTime"] as! String)!
+                let endDateTime =  firebaseDateFormatter.date(from: regimenDataDict["endDateTime"] as! String)!
+                let newRegimen = Regimen(id: id, title: title, exercises: newExerciseArray, startDateTime: startDateTime, endDateTime: endDateTime)
+                self.regimens.append(newRegimen)
+            }
         }) { (error) in
             print(error.localizedDescription)
         }
