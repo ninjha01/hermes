@@ -104,24 +104,22 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     @IBAction func logResults(_ sender: Any) {
         let selectedPainButtons = self.painSiteButtons[0].selectedButtons()
-        var painSites : [String: Bool] = [:]
         for button in selectedPainButtons {
-            painSites[button.title(for: [])!] = true
+            self.assesment.painSites[button.title(for: [])!] = true
         }
-        var questions: [String: Bool] = [:]
         for button in questionButtons {
             if button.isSelected {
-               questions[button.title(for: [])!] = true
+               self.assesment.questions[button.title(for: [])!] = true
             } else {
-                questions[button.title(for: [])!] = false
+                self.assesment.questions[button.title(for: [])!] = false
             }
         }
         let today = Date()
         let todayString = dateFormatter.string(from: today)
         let dateAssignedString = dateFormatter.string(from: self.assesment.dateAssigned)
         let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
-        let newAssesmentNode = userDocument.child("assesments").childByAutoId()
-        newAssesmentNode.setValue(["key": self.assesment.key!, "painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString])
+        let assesmentNode = userDocument.child("assesments").child(self.assesment.key!)
+        assesmentNode.setValue(["painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString])
         
         //Return to Calendar
         self.navigationController?.popViewController(animated: true)
