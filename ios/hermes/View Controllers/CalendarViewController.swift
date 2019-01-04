@@ -189,7 +189,7 @@ extension CalendarViewController {
                     var exerciseData = exerciseSnapshot.value as! [String: AnyObject]
                     exerciseData["key"] = exerciseSnapshot.key as AnyObject
                     let exercise = self.parseDictToExercise(exerciseDict: exerciseData)
-                    if exercise != nil && self.remoteExercises[exercise!.key] == nil {
+                    if exercise != nil {
                         self.remoteExercises[exercise!.key] = exercise!
                     }
                 }
