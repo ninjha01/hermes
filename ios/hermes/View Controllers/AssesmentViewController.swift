@@ -66,7 +66,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             self.painSiteButtonsStack.addArrangedSubview(radioButton)
         }
         let firstButton = painSiteButtons[0]
-        firstButton.otherButtons =  Array(painSiteButtons.dropFirst())
+        firstButton.otherButtons = Array(painSiteButtons.dropFirst())
         firstButton.isMultipleSelectionEnabled = true
         self.painSiteButtonsStack.sizeToFit()
         self.painSiteButtonsStack.setNeedsDisplay()
@@ -102,16 +102,11 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     }
     
     @IBAction func logResults(_ sender: Any) {
-        let selectedPainButtons = self.painSiteButtons[0].selectedButtons()
-        for button in selectedPainButtons {
-            self.assesment.painSites[button.title(for: [])!] = true
+        for button in painSiteButtons {
+            self.assesment.painSites[button.title(for: [])!] = button.isSelected
         }
         for button in questionButtons {
-            if button.isSelected {
-               self.assesment.questions[button.title(for: [])!] = true
-            } else {
-                self.assesment.questions[button.title(for: [])!] = false
-            }
+               self.assesment.questions[button.title(for: [])!] = button.isSelected
         }
         let today = Date()
         let todayString = dateFormatter.string(from: today)
@@ -119,14 +114,14 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let valueDict = ["painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString] as [String: AnyObject]
         self.updateAssesmentByKey(key: self.assesment.key!, valueDict: valueDict)
         //Return to Calendar
-        self.navigationController?.popViewController(animated: true)
+        performSegue(withIdentifier: "assesmentToCalendar", sender: self)
     }
     
     func updateAssesmentByKey(key: String, valueDict: [String: AnyObject]) {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
             let assesmentNode = userDocument!.child("assesments").child(key)
-            assesmentNode.setValue(valueDict)
+            assesmentNode.updateChildValues(valueDict)
         } else {
             print("Failed to update assesment by key", key, valueDict)
         }

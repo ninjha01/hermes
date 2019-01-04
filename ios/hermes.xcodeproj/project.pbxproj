@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		194F8C8421DF90D1002BF76B /* AssesmentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194F8C8321DF90D1002BF76B /* AssesmentTableViewController.swift */; };
+		194F8C8821DF91B6002BF76B /* AssesmentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194F8C8721DF91B6002BF76B /* AssesmentTableViewCell.swift */; };
 		195A7B0A21D082EC00B9FDBC /* secondary.png in Resources */ = {isa = PBXBuildFile; fileRef = 195A7B0921D082EC00B9FDBC /* secondary.png */; };
 		56A51B6521C7062B00EAF74B /* Assesment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A51B6221C7062B00EAF74B /* Assesment.swift */; };
 		56B0DA3621C40BA3003607C9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B0DA2B21C40BA3003607C9 /* Extensions.swift */; };
@@ -51,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		15646232550C4C83DA166B2A /* Pods-hermes.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hermes.release.xcconfig"; path = "Pods/Target Support Files/Pods-hermes/Pods-hermes.release.xcconfig"; sourceTree = "<group>"; };
+		194F8C8321DF90D1002BF76B /* AssesmentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssesmentTableViewController.swift; sourceTree = "<group>"; };
+		194F8C8721DF91B6002BF76B /* AssesmentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssesmentTableViewCell.swift; sourceTree = "<group>"; };
 		195A7B0921D082EC00B9FDBC /* secondary.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = secondary.png; sourceTree = "<group>"; };
 		56A51B6221C7062B00EAF74B /* Assesment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assesment.swift; sourceTree = "<group>"; };
 		56B0DA2A21C40BA3003607C9 /* hermes-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hermes-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -66,7 +70,7 @@
 		56B0DA3421C40BA3003607C9 /* CellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CellView.xib; sourceTree = "<group>"; };
 		56B0DA3521C40BA3003607C9 /* CellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellView.swift; sourceTree = "<group>"; };
 		56B0DA4121C41E49003607C9 /* ExerciseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseViewController.swift; sourceTree = "<group>"; };
-		56B0DA4321C42A4A003607C9 /* output.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; name = output.mp4; path = ../../output.mp4; sourceTree = "<group>"; };
+		56B0DA4321C42A4A003607C9 /* output.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = output.mp4; sourceTree = "<group>"; };
 		56BE891321CF18C10047BD4C /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		56BE891521CF18CD0047BD4C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		56BE891721CF18F20047BD4C /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +115,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		194F8C8921DFA253002BF76B /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				56B0DA4321C42A4A003607C9 /* output.mp4 */,
+				195A7B0921D082EC00B9FDBC /* secondary.png */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		563B3DE321CF180600F993D7 /* Data Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +142,7 @@
 				56B0DA3021C40BA3003607C9 /* CalendarViewController.swift */,
 				56B0DA4121C41E49003607C9 /* ExerciseViewController.swift */,
 				56E8707E21CD9151008379E1 /* AssesmentViewController.swift */,
+				194F8C8321DF90D1002BF76B /* AssesmentTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -136,6 +150,7 @@
 		56BE891221CF189B0047BD4C /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
+				194F8C8721DF91B6002BF76B /* AssesmentTableViewCell.swift */,
 				56B0DA3521C40BA3003607C9 /* CellView.swift */,
 				56B0DA3421C40BA3003607C9 /* CellView.xib */,
 				56B0DA3221C40BA3003607C9 /* ScheduleTableViewCell.swift */,
@@ -177,8 +192,7 @@
 				56BE891121CF188A0047BD4C /* View Controllers */,
 				56BE891221CF189B0047BD4C /* Subviews */,
 				563B3DE321CF180600F993D7 /* Data Models */,
-				56B0DA4321C42A4A003607C9 /* output.mp4 */,
-				195A7B0921D082EC00B9FDBC /* secondary.png */,
+				194F8C8921DFA253002BF76B /* Media */,
 				56B0DA2A21C40BA3003607C9 /* hermes-Bridging-Header.h */,
 				56B0DA2C21C40BA3003607C9 /* Info.plist */,
 				56E8707D21CD879C008379E1 /* hermes.entitlements */,
@@ -432,8 +446,10 @@
 				56BE891821CF18F20047BD4C /* LaunchViewController.swift in Sources */,
 				56A51B6521C7062B00EAF74B /* Assesment.swift in Sources */,
 				56B0DA4021C40BA3003607C9 /* CellView.swift in Sources */,
+				194F8C8821DF91B6002BF76B /* AssesmentTableViewCell.swift in Sources */,
 				56B0DA3921C40BA3003607C9 /* Exercise.swift in Sources */,
 				56E8707F21CD9151008379E1 /* AssesmentViewController.swift in Sources */,
+				194F8C8421DF90D1002BF76B /* AssesmentTableViewController.swift in Sources */,
 				56B0DA3B21C40BA3003607C9 /* CalendarViewController.swift in Sources */,
 				56BE891621CF18CD0047BD4C /* LoginViewController.swift in Sources */,
 				56B0DA3621C40BA3003607C9 /* Extensions.swift in Sources */,

@@ -21,8 +21,7 @@ class CalendarViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
-    var assesmentButton = UIBarButtonItem(title: "Assesments", style: .plain, target: self, action: #selector(showAssesments))
-    var assesments: [Assesment] = []
+    var remoteAssesments: [String: Assesment] = [:]
     var currentExercise: Exercise?
     var remoteExercises: [String: Exercise] = [:]
     
@@ -77,9 +76,9 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.initNavBar()
         //Set Navbar root
         self.navigationController?.setViewControllers([self], animated: true)
+        self.initNavBar()
         setupViewNibs()
         showTodayButton.target = self
         showTodayButton.action = #selector(showTodayWithAnimate)
@@ -124,8 +123,24 @@ class CalendarViewController: UIViewController {
     }
     
     func initNavBar() {
-        assesmentButton.isEnabled = false
-        navigationItem.rightBarButtonItem = assesmentButton
+        let assesmentButton = UIBarButtonItem(title: "Assesments", style: .plain, target: self, action: #selector(showPendingAssesments))
+        if getPendingAssesments().count > 0 {
+            navigationItem.rightBarButtonItem = assesmentButton
+        }
+    }
+    
+    func getPendingAssesments() -> [Assesment] {
+        var pendingAssesments: [Assesment] = []
+        for assesment in self.remoteAssesments.values {
+            if assesment.dateCompleted == nil {
+                pendingAssesments.append(assesment)
+            }
+        }
+        return pendingAssesments.sorted(by: { $0.dateAssigned.compare($1.dateAssigned) == .orderedAscending })
+    }
+    
+    @objc func showPendingAssesments() {
+        performSegue(withIdentifier: "assesmentPopover", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -134,9 +149,13 @@ class CalendarViewController: UIViewController {
             destinationVC.delegate = self
             destinationVC.exercise = currentExercise
         }
-        if segue.identifier == "toAssesment" {
+        if segue.identifier == "notificationToAssesment" {
             let destinationVC = segue.destination as! AssesmentViewController
             destinationVC.parseAPSForAssesment(aps: self.notificationPayload!)
+        }
+        if segue.identifier == "assesmentPopover" {
+            let destinationVC = segue.destination as! AssesmentTableViewController
+            destinationVC.assesments = getPendingAssesments()
         }
     }
     
@@ -147,20 +166,11 @@ class CalendarViewController: UIViewController {
         let initial = storyboard.instantiateInitialViewController()
         UIApplication.shared.keyWindow?.rootViewController = initial
     }
-    
 }
 
 //Mark: Firebase
 extension CalendarViewController {
-    func checkAssessments() {
-        let userAssesments = getAssesments()
-    }
-    
-    @objc func showAssesments() {
-    }
-    
-    
-    //Mark: User
+
     //MARK: User Data
     func getCurrentUser() -> User? {
         guard let user = appDelegate.auth!.currentUser else {
@@ -171,7 +181,6 @@ extension CalendarViewController {
     
     //Mark: Exercises
     func getRemoteExercises() {
-        var exercises: [Exercise] = []
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
             userDocument!.child("exercises").observeSingleEvent(of: .value, with: { (firebaseExerciseData) in
@@ -186,7 +195,6 @@ extension CalendarViewController {
                 }
             })
         }
-        
     }
     
     func parseDictToExercise(exerciseDict: [String: AnyObject]) -> Exercise? {
@@ -218,8 +226,7 @@ extension CalendarViewController {
     }
     
     //MARK: Assesments
-    func getAssesments() -> [Assesment] {
-        var assesments: [Assesment] = []
+    func getRemoteAssesments() {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
             userDocument!.child("assesments").observeSingleEvent(of: .value, with: { (firebaseAssesmentData) in
@@ -229,19 +236,18 @@ extension CalendarViewController {
                     assesmentData["key"] = assesmentSnapshot.key as AnyObject
                     let assesment = self.parseDictToAssesment(assesmentDict: assesmentData)
                     if assesment != nil {
-                        assesments.append(assesment!)
+                        self.remoteAssesments[assesment!.key!] = assesment!
                     }
                 }
             })
         } else {
             print("Failed to get assignments")
-            return []
         }
-        return assesments
     }
     
     func parseDictToAssesment(assesmentDict: [String: AnyObject]) -> Assesment? {
         guard let key = assesmentDict["key"] as? String,
+            let title = assesmentDict["title"] as? String,
             let painScore = assesmentDict["painScore"] as? Int,
             let painSites = assesmentDict["painSites"] as? [String: Bool],
             let questions = assesmentDict["questions"] as? [String: Bool],
@@ -256,17 +262,18 @@ extension CalendarViewController {
                 return nil
         }
         //dateCompleted is allowed to be nil
-        let dateCompletedString = assesmentDict["dateCompleted"] as? String
+        let dateCompleted: Date? = nil
         //But if it isn't, must be valid date
+        let dateCompletedString = assesmentDict["dateCompleted"] as? String
         if dateCompletedString != nil {
             guard let dateCompleted =  appDelegate.firebaseDateFormatter.date(from: dateCompletedString!)
                 else {
                     print("Failed to parse dateCompleted", dateCompletedString!, self.appDelegate.firebaseDateFormatString)
                     return nil
             }
-            return Assesment(key: key, painScore: painScore, painSites: painSites, questions: questions, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
+            return Assesment(key: key, title: title, painScore: painScore, painSites: painSites, questions: questions, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
         }
-        return nil
+        return Assesment(key: key, title: title, painScore: painScore, painSites: painSites, questions: questions, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
     }
     
     //Refresh Button
@@ -280,15 +287,17 @@ extension CalendarViewController {
         present(alert, animated: true, completion: nil)
         
         DispatchQueue.global(qos: .background).async {
+            self.getRemoteAssesments()
             self.getRemoteExercises()
             sleep(1)
             DispatchQueue.main.async {
                 self.getExercise()
+                self.initNavBar()
                 self.calendarView.visibleDates { [unowned self] (visibleDates: DateSegmentInfo) in
                     self.setupViewsOfCalendar(from: visibleDates)
                 }
                 self.adjustCalendarViewHeight()
-                self.dismiss(animated: false, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -517,3 +526,10 @@ extension CalendarViewController : UITableViewDelegate {
     }
 }
 
+//Popover on iPhone
+extension CalendarViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+}
