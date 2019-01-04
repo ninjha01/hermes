@@ -6,7 +6,7 @@
 	    "exercises" : [ {
 		"id": "yuPrRM9nsd",
 		"completed" : false,
-		"endDateTime" : "2018-12-01 14:00",
+		"endDateTime" : "2019-01-01 14:00",
 		"equipment" : "Barbells",
 		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 		"intensity" : "Low",
@@ -14,12 +14,12 @@
 		"secondaryMultimediaFilenames" : [],
 		"reps" : 9,
 		"sets" : 10,
-		"startDateTime" : "2018-12-01 08:00",
+		"startDateTime" : "2019-01-01 08:00",
 		"title" : "Burpees"
 	    }, {
 		"id": "kGke8AdGhj",
 		"completed" : false,
-		"endDateTime" : "2018-12-24 14:00",
+		"endDateTime" : "2019-01-24 14:00",
 		"equipment" : "None",
 		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 		"intensity" : "High",
@@ -27,12 +27,12 @@
 		"reps" : 3,
 		"secondaryMultimediaFilenames" : [ "secondary" ],
 		"sets" : 2,
-		"startDateTime" : "2018-12-24 08:00",
+		"startDateTime" : "2019-01-24 08:00",
 		"title" : "High Knees"
 	    }, {
 		"id": "qJZm7bRCrh",
 		"completed" : false,
-		"endDateTime" : "2018-12-30 17:00",
+		"endDateTime" : "2019-01-30 17:00",
 		"equipment" : "None",
 		"instructions" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 		"intensity" : "Medium",
@@ -40,7 +40,7 @@
 		"secondaryMultimediaFilenames" : [ "secondary" ],
 		"reps" : 1,
 		"sets" : 8,
-		"startDateTime" : "2018-12-30 08:00",
+		"startDateTime" : "2019-01-30 08:00",
 		"title" : "Burpees"
 	    } ]
 	}

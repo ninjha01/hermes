@@ -7,6 +7,6 @@
      "sound":"default",
      "painSites": ["Head", "Shoulders", "Knees", "Toes"],
      "questions": ["Are you able to walk five feet unaided?", "Can you touch your toes?", "Can you stand on one foot for more than 1 minute?"],
-     "dateAssigned": "2018-12-23"
+     "dateAssigned": "2018-12-23 00:00"
  }
 }

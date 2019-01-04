@@ -7,16 +7,14 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class RegisterViewController: UIViewController {
-
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var reEnterPasswordTextField: UITextField!
     @IBOutlet weak var registerButton: UIButton!
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +29,9 @@ class RegisterViewController: UIViewController {
             self.present(alertController, animated: true, completion: nil)
         }
         else{
-            Auth.auth().createUser(withEmail: emailTextField.text!, password: passwordTextField.text!){ (user, error) in
+            self.appDelegate.auth!.createUser(withEmail: emailTextField.text!, password: passwordTextField.text!){ (user, error) in
                 if error == nil {
-                    self.addUserToFirestore(authResult: user!)
+                    self.appDelegate.updateUser(valueDict: ["email": self.emailTextField.text!, "deviceToken": self.appDelegate.deviceToken] as [String: AnyObject])
                     self.performSegue(withIdentifier: "registerToCalendar", sender: self)
                 }
                 else{
@@ -46,16 +44,9 @@ class RegisterViewController: UIViewController {
             }
         }
     }
-   
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-    }
-    
-    func addUserToFirestore(authResult: AuthDataResult) {
-        let userDocument = appDelegate.ref!.child("users").child(authResult.user.uid)
-        userDocument.updateChildValues(["email": authResult.user.email!,
-                               "deviceToken": appDelegate.deviceToken])
     }
 }

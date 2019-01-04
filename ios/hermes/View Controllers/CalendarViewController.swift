@@ -12,6 +12,8 @@ import FirebaseDatabase
 
 class CalendarViewController: UIViewController {
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     //Used to launch assesment
     var notificationPayload: [String: AnyObject]?
     
@@ -19,8 +21,10 @@ class CalendarViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
+    var assesmentButton = UIBarButtonItem(title: "Assesments", style: .plain, target: self, action: #selector(showAssesments))
+    var assesments: [Assesment] = []
     var currentExercise: Exercise?
-    var remoteExercises: [Exercise] = []
+    var remoteExercises: [String: Exercise] = [:]
     
     // MARK: DataSource
     var exerciseGroup : [String: [Exercise]]? {
@@ -52,6 +56,9 @@ class CalendarViewController: UIViewController {
     
     var monthFirstDate: Date?
     
+    //Mark: Firebase config
+   
+    
     // MARK: Helpers
     var numOfRowIsSix: Bool {
         get {
@@ -70,7 +77,7 @@ class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.getExercisesFromFirebase()
+        self.initNavBar()
         //Set Navbar root
         self.navigationController?.setViewControllers([self], animated: true)
         setupViewNibs()
@@ -80,6 +87,10 @@ class CalendarViewController: UIViewController {
         
         let gesturer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(gesture:)))
         calendarView.addGestureRecognizer(gesturer)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.refreshCalendar(self)
     }
     
     @objc func handleLongPress(gesture : UILongPressGestureRecognizer) {
@@ -109,7 +120,12 @@ class CalendarViewController: UIViewController {
         }
         
         let year = Calendar.current.component(.year, from: startDate)
-        title = "\(year) \(currentMonthSymbol)"
+        title = "\(currentMonthSymbol) \(year)"
+    }
+    
+    func initNavBar() {
+        assesmentButton.isEnabled = false
+        navigationItem.rightBarButtonItem = assesmentButton
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -125,58 +141,159 @@ class CalendarViewController: UIViewController {
     }
     
     @IBAction func logOutAction(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
-        }
-        catch let signOutError as NSError {
-            print ("Error signing out: %@", signOutError)
-        }
+        appDelegate.logout()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let initial = storyboard.instantiateInitialViewController()
         UIApplication.shared.keyWindow?.rootViewController = initial
     }
     
-    func getExercisesFromFirebase() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
-        userDocument.child("exercises").observeSingleEvent(of: .value, with: { (firebaseExerciseData) in
-            let firebaseDateFormatString = "yyyy-MM-dd HH:mm"
-            let firebaseDateFormatter = DateFormatter()
-            firebaseDateFormatter.dateFormat = firebaseDateFormatString
-            for child in firebaseExerciseData.children {
-                let exercise = child as! DataSnapshot
-                let key = exercise.key
-                let exerciseData = exercise.value as! [String: AnyObject]
-                let title =  exerciseData["title"] as! String
-                let instructions =  exerciseData["instructions"] as! String
-                let startDateTime =  firebaseDateFormatter.date(from: exerciseData["startDateTime"] as! String)!
-                let endDateTime =  firebaseDateFormatter.date(from: exerciseData["endDateTime"] as! String)!
-                let completed =  exerciseData["completed"] as! Bool
-                let primaryVideoFilename =  exerciseData["primaryVideoFilename"] as! String
-                let secondaryMultimediaFilenames =  exerciseData["secondaryMultimediaFilenames"] as? [String] ?? []
-                let sets =  exerciseData["sets"] as! Int
-                let reps =  exerciseData["reps"] as! Int
-                let intensity =  exerciseData["intensity"] as! String
-                let equipment =  exerciseData["equipment"] as! String
-                let newExercise = Exercise(key: key, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoFilename: primaryVideoFilename, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, intensity: intensity, equipment: equipment)
-                self.remoteExercises.append(newExercise)
-            }
-        }) { (error) in
-            print(error.localizedDescription)
+}
+
+//Mark: Firebase
+extension CalendarViewController {
+    func checkAssessments() {
+        let userAssesments = getAssesments()
+    }
+    
+    @objc func showAssesments() {
+    }
+    
+    
+    //Mark: User
+    //MARK: User Data
+    func getCurrentUser() -> User? {
+        guard let user = appDelegate.auth!.currentUser else {
+            return nil
         }
+        return user
+    }
+    
+    //Mark: Exercises
+    func getRemoteExercises() {
+        var exercises: [Exercise] = []
+        let userDocument = appDelegate.getUserDocument()
+        if (userDocument != nil) {
+            userDocument!.child("exercises").observeSingleEvent(of: .value, with: { (firebaseExerciseData) in
+                for child in firebaseExerciseData.children {
+                    let exerciseSnapshot = child as! DataSnapshot
+                    var exerciseData = exerciseSnapshot.value as! [String: AnyObject]
+                    exerciseData["key"] = exerciseSnapshot.key as AnyObject
+                    let exercise = self.parseDictToExercise(exerciseDict: exerciseData)
+                    if exercise != nil && self.remoteExercises[exercise!.key] == nil {
+                        self.remoteExercises[exercise!.key] = exercise!
+                    }
+                }
+            })
+        }
+        
+    }
+    
+    func parseDictToExercise(exerciseDict: [String: AnyObject]) -> Exercise? {
+        guard let key = exerciseDict["key"] as? String,
+            let title = exerciseDict["title"] as? String,
+            let instructions = exerciseDict["instructions"] as? String,
+            let completed = exerciseDict["completed"] as? Bool,
+            let primaryVideoFilename = exerciseDict["primaryVideoFilename"] as? String,
+            let sets = exerciseDict["sets"] as? Int,
+            let reps = exerciseDict["reps"] as? Int,
+            let intensity = exerciseDict["intensity"] as? String,
+            let equipment = exerciseDict["equipment"] as? String,
+            let startDateTimeString = exerciseDict["startDateTime"] as? String,
+            let endDateTimeString = exerciseDict["endDateTime"] as? String
+            else {
+                print("Failed to parse dict to exercise", exerciseDict)
+                return nil
+        }
+        guard let startDateTime =  appDelegate.firebaseDateFormatter.date(from: startDateTimeString),
+            let endDateTime =  appDelegate.firebaseDateFormatter.date(from: endDateTimeString)
+            else {
+                print("Failed to parse string to date", startDateTimeString, endDateTimeString, self.appDelegate.firebaseDateFormatString)
+                return nil
+        }
+        
+        let secondaryMultimediaFilenames =  exerciseDict["secondaryMultimediaFilenames"] as? [String] ?? []
+        
+        return Exercise(key: key, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoFilename: primaryVideoFilename, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, intensity: intensity, equipment: equipment)
+    }
+    
+    //MARK: Assesments
+    func getAssesments() -> [Assesment] {
+        var assesments: [Assesment] = []
+        let userDocument = appDelegate.getUserDocument()
+        if (userDocument != nil) {
+            userDocument!.child("assesments").observeSingleEvent(of: .value, with: { (firebaseAssesmentData) in
+                for child in firebaseAssesmentData.children {
+                    let assesmentSnapshot = child as! DataSnapshot
+                    var assesmentData = assesmentSnapshot.value as! [String: AnyObject]
+                    assesmentData["key"] = assesmentSnapshot.key as AnyObject
+                    let assesment = self.parseDictToAssesment(assesmentDict: assesmentData)
+                    if assesment != nil {
+                        assesments.append(assesment!)
+                    }
+                }
+            })
+        } else {
+            print("Failed to get assignments")
+            return []
+        }
+        return assesments
+    }
+    
+    func parseDictToAssesment(assesmentDict: [String: AnyObject]) -> Assesment? {
+        guard let key = assesmentDict["key"] as? String,
+            let painScore = assesmentDict["painScore"] as? Int,
+            let painSites = assesmentDict["painSites"] as? [String: Bool],
+            let questions = assesmentDict["questions"] as? [String: Bool],
+            let dateAssignedString = assesmentDict["dateAssigned"] as? String
+            else {
+                print("Failed to parse Dict to assesment", assesmentDict)
+                return nil
+        }
+        guard let dateAssigned = appDelegate.firebaseDateFormatter.date(from: dateAssignedString)
+            else {
+                print("Failed to parse dateAssigned string", dateAssignedString, self.appDelegate.firebaseDateFormatString)
+                return nil
+        }
+        //dateCompleted is allowed to be nil
+        let dateCompletedString = assesmentDict["dateCompleted"] as? String
+        //But if it isn't, must be valid date
+        if dateCompletedString != nil {
+            guard let dateCompleted =  appDelegate.firebaseDateFormatter.date(from: dateCompletedString!)
+                else {
+                    print("Failed to parse dateCompleted", dateCompletedString!, self.appDelegate.firebaseDateFormatString)
+                    return nil
+            }
+            return Assesment(key: key, painScore: painScore, painSites: painSites, questions: questions, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
+        }
+        return nil
     }
     
     //Refresh Button
     @IBAction func refreshCalendar(_ sender: Any) {
-        self.getExercise()
-        self.calendarView.visibleDates {[unowned self] (visibleDates: DateSegmentInfo) in
-            self.setupViewsOfCalendar(from: visibleDates)
-        }
+        let alert = UIAlertController(title: nil, message: "Refreshing...", preferredStyle: .alert)
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.gray
+        loadingIndicator.startAnimating();
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
         
-        self.adjustCalendarViewHeight()
+        DispatchQueue.global(qos: .background).async {
+            self.getRemoteExercises()
+            sleep(1)
+            DispatchQueue.main.async {
+                self.getExercise()
+                self.calendarView.visibleDates { [unowned self] (visibleDates: DateSegmentInfo) in
+                    self.setupViewsOfCalendar(from: visibleDates)
+                }
+                self.adjustCalendarViewHeight()
+                self.dismiss(animated: false, completion: nil)
+            }
+        }
     }
 }
+
 
 // MARK: Helpers
 extension CalendarViewController {
@@ -234,7 +351,7 @@ extension CalendarViewController {
     }
     
     func getExercise(fromDate: Date, toDate: Date) {
-        exerciseGroup = self.remoteExercises.group{self.formatter.string(from: $0.startDateTime)}
+        exerciseGroup = self.remoteExercises.values.group{self.formatter.string(from: $0.startDateTime)}
     }
 }
 
@@ -396,7 +513,6 @@ extension CalendarViewController : UITableViewDataSource {
 extension CalendarViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         currentExercise = exercises[indexPath.row]
-        debugPrint(currentExercise!)
         performSegue(withIdentifier: "cellToExercise", sender: self)
     }
 }

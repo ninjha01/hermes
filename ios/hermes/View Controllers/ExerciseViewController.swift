@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 import AVKit
 import AVFoundation
 
@@ -93,13 +92,19 @@ class ExerciseViewController: UIViewController {
         doneButton.isEnabled = !exercise!.completed
     }
     
+    func updateExerciseByKey(key: String, valueDict: [String: AnyObject]) {
+        let userDocument = appDelegate.getUserDocument()
+        if (userDocument != nil) {
+            userDocument!.child("exercises").child(key).updateChildValues(["completed": true])
+        } else {
+            print("Failed to update exercise by key", key, valueDict)
+        }
+    }
+    
     @IBAction func markExerciseDone(_ sender: Any) {
         self.exercise!.completed = true
-        debugPrint("Back to Calendar")
-        debugPrint(self.exercise)
         delegate!.currentExercise?.completed = true
         doneButton.isEnabled = false
-        let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
-        userDocument.child("exercises").child(self.exercise!.key).updateChildValues(["completed": true])
+        self.updateExerciseByKey(key: self.exercise!.key, valueDict: ["completed": true] as [String: AnyObject])
     }
 }

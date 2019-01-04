@@ -23,8 +23,8 @@ class Assesment: Codable{
         self.painScore = -1
         self.dateAssigned = Date()    }
     
-    init(id: String, painScore: Int, painSites: [String: Bool], questions: [String: Bool], dateAssigned: Date, dateCompleted: Date) {
-        self.key = id
+    init(key: String, painScore: Int, painSites: [String: Bool], questions: [String: Bool], dateAssigned: Date, dateCompleted: Date?) {
+        self.key = key
         self.painScore = painScore
         self.painSites = painSites
         self.questions = questions

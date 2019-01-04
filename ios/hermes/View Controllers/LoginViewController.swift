@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class LoginViewController: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -24,9 +23,9 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginAction(_ sender: Any) {
         
-        Auth.auth().signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
-            if error == nil{
-                self.updateDeviceToken(authResult: user!)
+        self.appDelegate.auth!.signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
+            if error == nil {
+                self.appDelegate.updateUser(valueDict: ["deviceToken": self.appDelegate.deviceToken] as [String: AnyObject])
                 self.performSegue(withIdentifier: "loginToCalendar", sender: self)
             }
             else{
@@ -36,12 +35,7 @@ class LoginViewController: UIViewController {
                 alertController.addAction(defaultAction)
                 self.present(alertController, animated: true, completion: nil)
             }
-        }        
-    }
-    
-    func updateDeviceToken(authResult: AuthDataResult) {
-        let userDocument = appDelegate.ref!.child("users").child(authResult.user.uid)
-        userDocument.updateChildValues(["deviceToken": appDelegate.deviceToken])
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

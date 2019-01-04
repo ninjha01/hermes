@@ -9,19 +9,25 @@
 import UIKit
 import UserNotifications
 import Firebase
+import FirebaseDatabase
+import FirebaseAuth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var ref: DatabaseReference?
     var deviceToken: String = "deadbeef"
-    
+    var auth: Auth?
+    var ref: DatabaseReference?
+    let firebaseDateFormatString = "yyyy-MM-dd HH:mm"
+    let firebaseDateFormatter = DateFormatter()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         //Firebase Config
+        firebaseDateFormatter.dateFormat = firebaseDateFormatString
         FirebaseApp.configure()
+        self.auth = Auth.auth()
         self.ref = Database.database().reference()
         //Notification configure
         UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
@@ -105,7 +111,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         launchAssesment(aps: aps)
     }
+    
+    //Mark: Firebase
+    func getUserDocument() -> DatabaseReference? {
+        let userId = getCurrentUser()?.uid
+        if userId != nil {
+            return ref?.child("users").child(userId!)
+        } else {
+            print("Failed to get User Document")
+            return nil
+        }
+    }
+    
+    func updateUser(valueDict: [String: AnyObject]) {
+        guard let userDocument = getUserDocument()
+            else {
+                print("Failed to update User")
+                return
+        }
+        userDocument.updateChildValues(valueDict)
+    }
+    
+    func logout() {
+        do {
+            try auth!.signOut()
+        } catch {
+            print("Failed to log out")
+        }
+    }
+    
+    func isLoggedIn() -> Bool {
+        return auth?.currentUser != nil
+    }
+    
+    //MARK: User Data
+    func getCurrentUser() -> User? {
+        guard let user = auth?.currentUser else {
+            return nil
+        }
+        return user
+    }
 }
+
 
 //Recieve Banner even when app is in foreground
 extension AppDelegate : UNUserNotificationCenterDelegate {

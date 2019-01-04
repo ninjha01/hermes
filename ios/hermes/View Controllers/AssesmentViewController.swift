@@ -8,7 +8,6 @@
 
 import UIKit
 import DLRadioButton
-import FirebaseAuth
 
 class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -20,7 +19,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     
     var dateFormatter: DateFormatter {
         let x = DateFormatter()
-        x.dateFormat = "yyyy-MM-dd"
+        x.dateFormat = "yyyy-MM-dd HH:mm"
         return x
     }
     
@@ -117,12 +116,20 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let today = Date()
         let todayString = dateFormatter.string(from: today)
         let dateAssignedString = dateFormatter.string(from: self.assesment.dateAssigned)
-        let userDocument = appDelegate.ref!.child("users").child(Auth.auth().currentUser!.uid)
-        let assesmentNode = userDocument.child("assesments").child(self.assesment.key!)
-        assesmentNode.setValue(["painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString])
-        
+        let valueDict = ["painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString] as [String: AnyObject]
+        self.updateAssesmentByKey(key: self.assesment.key!, valueDict: valueDict)
         //Return to Calendar
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func updateAssesmentByKey(key: String, valueDict: [String: AnyObject]) {
+        let userDocument = appDelegate.getUserDocument()
+        if (userDocument != nil) {
+            let assesmentNode = userDocument!.child("assesments").child(key)
+            assesmentNode.setValue(valueDict)
+        } else {
+            print("Failed to update assesment by key", key, valueDict)
+        }
     }
     
     func parseAPSForAssesment(aps: [String: AnyObject]) {
@@ -140,7 +147,6 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == self.painScorePicker {
