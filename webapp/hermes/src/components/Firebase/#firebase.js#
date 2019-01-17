@@ -50,7 +50,7 @@ class Firebase {
 	this.db.ref('exercises/' + id).update(values);
     
     getExerciseVideoUrl = (id) =>
-	this.exerciseVideoRef().child(id).getDownloadURL()
+	
 }
 
 export default Firebase;
