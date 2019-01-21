@@ -47,11 +47,11 @@ class UserPage extends Component {
 		    <br></br>
 		    <span><strong>deviceToken:</strong> {user.deviceToken}</span>
 		    <br></br>
-		    <span><strong>Assesments:</strong> {user.assesments.values}</span>
+		    <span><strong>Assesments:</strong> Assesments here </span>
 		    <br></br>
-		    <span><strong>Exercises:</strong> {user.exercises.values}</span>
+		    <span><strong>Exercises:</strong> Exercises here</span>
 		    <br></br>
-		    <input onClick={() => this.setState({editing: user})} type="button" value="Update"/>
+		    <input onClick={() => this.setState({editing: user})} type="button" value="View"/>
 	    	    </li>
 	    ))}
 	</ul>
