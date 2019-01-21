@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+import * as ROUTES from '../../constants/routes';
 
 import { withFirebase } from '../Firebase';
+
 import ExerciseChangeForm from '../ExerciseChangeForm';
 
 class ExercisePage extends Component {
@@ -10,6 +14,7 @@ class ExercisePage extends Component {
 	this.state = {
 	    loading: false,
 	    exercises: [],
+	    editing: null
 	};
     }
 
@@ -33,40 +38,55 @@ class ExercisePage extends Component {
 
     componentWillUnmount() {
 	this.props.firebase.exercises().off();
-    }    
-    
+    }
+
+    exerciseDisplayList = (exercises) => (
+	    <ul>
+	    {exercises.map(exercise => (
+		    <li key={exercise.uid}>
+		    <span><strong>ID:</strong> {exercise.uid}</span>
+		    <br></br>
+		    <span><strong>Title:</strong> {exercise.title}</span>
+		    <br></br>
+		    <span><strong>Instructions:</strong> {exercise.instructions}</span>
+		    <br></br>
+		    <span><strong>Equipment:</strong> {exercise.equipment}</span>
+		    <br></br>
+		    <span><strong>Reps:</strong> {exercise.reps}</span>
+		    <br></br>
+		    <span><strong>Sets:</strong> {exercise.sets}</span>
+		    <br></br>
+		    <input onClick={() => this.setState({editing: exercise})} type="button" value="Update"/>
+	    	    </li>
+	    ))}
+	</ul>
+    );
+
+
     render() {
-	const { exercises, loading } = this.state;
-	return (
-		<div>
-		<h1>Exercise</h1>
-		{loading && <div>Loading ...</div>}
-		<div>
-		<ExerciseList exercises={exercises} />
-		</div>
-		<hr />
-		<p>Create an Exercise </p>
-		</div>
-	);
+	const { exercises, loading, editing } = this.state;
+	const exerciseDisplayList = this.exerciseDisplayList(exercises);
+	if (editing === null) {
+	    return (
+		    <div>
+		    <h1>Exercise</h1>
+		    {loading && <div>Loading ...</div>}
+		    <div>
+		    {exerciseDisplayList}
+		    </div>
+		    <hr />
+		    </div>
+	    );
+	} else {
+	    return(
+		    <div>
+		    <h1>{editing.title}</h1>
+		    <ExerciseChangeForm exercise={editing} />
+		    <input onClick={() => this.setState({editing: null})} type="button" value="Done"/>
+		    </div>
+	    )
+	}
     }
 }
-
-//Exercise Display
-const ExerciseList = ({ exercises }) => (
-	<ul>
-	{exercises.map(exercise => (
-		<li key={exercise.uid}>
-		<span>
-		<strong>ID:</strong> {exercise.uid}
-		<br></br>
-		</span>
-		<span>
-		<ExerciseChangeForm exercise={exercise} />
-	    </span>
-		
-	    </li>
-	))}
-    </ul>
-);
 
 export default withFirebase(ExercisePage);

@@ -11,6 +11,7 @@ import AccountPage from '../Account';
 import AdminPage from '../Admin';
 
 import ExercisePage from '../Exercises';
+import ExerciseChangeForm from '../ExerciseChangeForm';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
