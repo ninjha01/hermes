@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { withFirebase } from '../Firebase';
 
 import ExerciseChangeForm from '../ExerciseChangeForm';
+import ExerciseView from '../ExerciseView';
 
 class ExercisePage extends Component {
     constructor(props) {
@@ -40,27 +41,17 @@ class ExercisePage extends Component {
     exerciseDisplayList = (exercises) => (
 	    <ul>
 	    {exercises.map(exercise => (
-		    <li key={exercise.uid}>
-		    <span><strong>ID:</strong> {exercise.uid}</span>
-		    <br></br>
-		    <span><strong>Title:</strong> {exercise.title}</span>
-		    <br></br>
-		    <span><strong>Instructions:</strong> {exercise.instructions}</span>
-		    <br></br>
-		    <span><strong>Equipment:</strong> {exercise.equipment}</span>
-		    <br></br>
-		    <span><strong>Reps:</strong> {exercise.reps}</span>
-		    <br></br>
-		    <span><strong>Sets:</strong> {exercise.sets}</span>
-		    <br></br>
+		    <span>
+		    <ExerciseView exercise={exercise} />
 		    <input onClick={() => this.setState({editing: exercise})} type="button" value="Update"/>
-	    	    </li>
+		    </span>
 	    ))}
 	</ul>
     );
 
     render() {
 	const { exercises, loading, editing } = this.state;
+	console.log(exercises);
 	const exerciseDisplayList = this.exerciseDisplayList(exercises);
 	//if not editing display all
 	if (editing === null) {
@@ -70,7 +61,7 @@ class ExercisePage extends Component {
 		    {loading && <div>Loading ...</div>}
 		    <div>
 		    {exerciseDisplayList}
-		    </div>
+		</div>
 		    <hr />
 		    </div>
 	    );
