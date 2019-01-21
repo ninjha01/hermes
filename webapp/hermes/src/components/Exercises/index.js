@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import { withFirebase } from '../Firebase';
 
@@ -60,10 +59,10 @@ class ExercisePage extends Component {
 	</ul>
     );
 
-
     render() {
 	const { exercises, loading, editing } = this.state;
 	const exerciseDisplayList = this.exerciseDisplayList(exercises);
+	//if not editing display all
 	if (editing === null) {
 	    return (
 		    <div>
@@ -75,6 +74,7 @@ class ExercisePage extends Component {
 		    <hr />
 		    </div>
 	    );
+	    // else display the editing form
 	} else {
 	    return(
 		    <div>
