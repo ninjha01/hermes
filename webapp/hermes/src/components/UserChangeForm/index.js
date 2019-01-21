@@ -22,9 +22,11 @@ class ExerciseChangeForm extends Component {
 			 "sets": this.state.sets}
 
 	this.setState({loading: true})
-	//WARNING: Doesn't update loading
 	this.props.firebase
 	    .doUpdateExerciseByID(this.state.uid, fields)
+	    .then(() => {
+		
+	    })
 	    .catch(error => {
 		this.setState({ error: error });
 	    });
@@ -32,7 +34,7 @@ class ExerciseChangeForm extends Component {
 	
 	const videoFile = this.refs.videoUpload.files[0]
 	
-	if (videoFile && videoFile.size > 0) {
+	if (!videoFile === null && videoFile.size > 0) {
 	    this.props.firebase //Abstract away
 		.storage.ref("exercise_videos/").child(fields.primaryVideoID).put(videoFile)
 		.then(() => this.setState({loading: false}));
@@ -44,10 +46,12 @@ class ExerciseChangeForm extends Component {
     };
 
     onChange = event => {
+	
 	this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {
+	
 	const [title, videoID, videoURL,
 	       instructions, equipment, reps,
 	       sets, loading, error ] = [this.state.title, this.state.primaryVideoID,
@@ -63,7 +67,8 @@ class ExerciseChangeForm extends Component {
 
 	//Validate
 	const isInvalid = false;
-		if (loading) {
+
+	if (loading) {
 	    return (
 		    <LoadingSpinner />
 	    );
@@ -107,7 +112,7 @@ class ExerciseChangeForm extends Component {
 		    <br></br>
 		    </span>
 		    
-		    <input value="Update" disabled={isInvalid} type="submit" />
+		    <button disabled={isInvalid} type="submit">Update</button>
 		    
 		{error && <p>{error.message}</p>}
 		</form>

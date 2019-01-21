@@ -5,7 +5,7 @@ import { withAuthorization } from '../Session';
 const HomePage = () => (
   <div>
     <h1>Home Page</h1>
-    <p>"Welcome to Project Hermes".</p>
+    <p>Welcome to Project Hermes.</p>
   </div>
 );
 
