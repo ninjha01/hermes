@@ -44,13 +44,14 @@ class Firebase {
     // *** Exercise API ***
     exercises = () => this.db.ref('exercises');
     exerciseVideoRef = () => this.storage.ref('exercise_videos/')
-    
-    //TODO: error handling
+      
     doUpdateExerciseByID = (id, values) =>
 	this.db.ref('exercises/' + id).update(values);
     
     getExerciseVideoUrl = (id) =>
 	this.exerciseVideoRef().child(id).getDownloadURL()
+
+
 }
 
 export default Firebase;
