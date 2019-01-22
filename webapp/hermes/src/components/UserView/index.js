@@ -51,7 +51,6 @@ class UserView extends Component {
 	    ))}
 	    </ul>
 	    </details>
-	    <br></br>
 	    <details>
 	    <summary><strong>Assesments:</strong></summary>
 	    <ul>
@@ -62,7 +61,6 @@ class UserView extends Component {
 	    ))}
 	    </ul>
 	    </details>
-	    <br></br>
 	    </div>		
 	);
     }

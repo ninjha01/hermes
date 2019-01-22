@@ -4,7 +4,6 @@ class AssesmentView extends Component {
     constructor(props) {
 	super(props);
 	this.state = {...props.assesment}
-	console.log(this.state);
     }
 
     render() {

@@ -51,7 +51,6 @@ class ExercisePage extends Component {
 
     render() {
 	const { exercises, loading, editing } = this.state;
-	console.log(exercises);
 	const exerciseDisplayList = this.exerciseDisplayList(exercises);
 	//if not editing display all
 	if (editing === null) {
