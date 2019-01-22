@@ -56,7 +56,7 @@ class UserView extends Component {
 	    <ul>
 	    {user.assesments.map(assesment => (
 		<span>
-		<AssesmentView assesment={assesment} />
+		<AssesmentView values={{assesment: assesment, fromUser: true}} />
 		</span>
 	    ))}
 	    </ul>
