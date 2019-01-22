@@ -4,7 +4,6 @@ class ExerciseView extends Component {
     constructor(props) {
 	super(props);
 	this.state = {...props.exercise}
-	console.log(this.state);
     }
 
     render() {
