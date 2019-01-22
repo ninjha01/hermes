@@ -45,9 +45,7 @@ class UserView extends Component {
 	    <summary><strong>Exercises:</strong></summary>
 	    <ul>
 	    {user.exercises.map(exercise => (
-		<span>
 		<ExerciseView exercise={exercise} />
-		</span>
 	    ))}
 	    </ul>
 	    </details>
@@ -55,9 +53,7 @@ class UserView extends Component {
 	    <summary><strong>Assesments:</strong></summary>
 	    <ul>
 	    {user.assesments.map(assesment => (
-		<span>
 		<AssesmentView values={{assesment: assesment, fromUser: true}} />
-		</span>
 	    ))}
 	    </ul>
 	    </details>
@@ -67,3 +63,4 @@ class UserView extends Component {
 }
 
 export default withFirebase(UserView);
+

@@ -8,3 +8,4 @@ export const PASSWORD_FORGET = '/pw-forget';
 
 export const EXERCISES = '/exercises';
 export const USERS = '/users';
+export const ASSIGN = '/assign';

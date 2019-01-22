@@ -6,7 +6,7 @@ class AssesmentView extends Component {
 	this.state = {...props.values}
     }
 
-    render() {
+x    render() {
 	const assesment = this.state.assesment;
 	const fromUser = this.state.fromUser;
 	if (fromUser) {
