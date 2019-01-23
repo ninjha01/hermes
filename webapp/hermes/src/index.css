@@ -1,3 +1,10 @@
+
+/*Calendar */
+.DateRangePicker {
+    box-sizing: border-box;
+}
+
+/* Navigation */
 div .nav li {
     display: inline;
     padding: 4px;
@@ -32,7 +39,7 @@ body {
 	background: #fff;
 	color: #4d4d4d;
 	min-width: 230px;
-	max-width: 550px;
+	max-width: 750px;
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
