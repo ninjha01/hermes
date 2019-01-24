@@ -35,7 +35,8 @@ class SignUpFormBase extends Component {
 		return this.props.firebase
 		    .user(authUser.user.uid)
 		    .set({
-			email,
+			email: email,
+			deviceToken: "",
 		    });
 	    })
 	    .then(authUser => {

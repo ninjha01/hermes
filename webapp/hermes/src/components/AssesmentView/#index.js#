@@ -6,7 +6,7 @@ class AssesmentView extends Component {
 	this.state = {...props.values}
     }
 
-    render() {
+x    render() {
 	const assesment = this.state.assesment;
 	const fromUser = this.state.fromUser;
 	if (fromUser) {
@@ -50,6 +50,7 @@ class AssesmentView extends Component {
 		
 	    );
 	} else {
+	    console.log("Hello");
 	    return(
 		<li key={assesment.id}>
 		<span><strong>ID:</strong> {assesment.id}</span>

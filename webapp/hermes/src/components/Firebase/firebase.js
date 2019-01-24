@@ -15,7 +15,6 @@ const config = {
 class Firebase {
     constructor() {
 	app.initializeApp(config);
-
 	this.auth = app.auth();
 	this.db = app.database();
 	this.storage = app.storage();
@@ -38,13 +37,20 @@ class Firebase {
 	this.auth.currentUser.updatePassword(password);
 
     // *** User API ***
-    user = uid => this.db.ref(`users/${uid}`);
     users = () => this.db.ref('users');
+    user = uid => this.db.ref("users/" + uid);
 
+    assignExerciseToUser = (exerciseID, userID, startDateTime, endDateTime) => {
+	const userExerciseDataChild = this.user(userID).child('exerciseData').push()
+	userExerciseDataChild.update({eid: exerciseID,
+				      startDateTime: startDateTime,
+				      endDateTime: endDateTime,
+				      completed: false})
+    }
     // *** Exercise API ***
     exercises = () => this.db.ref('exercises');
     exerciseVideoRef = () => this.storage.ref('exercise_videos/')
-      
+    
     doUpdateExerciseByID = (id, values) =>
 	this.db.ref('exercises/' + id).update(values);
     
