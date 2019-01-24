@@ -59,7 +59,7 @@ class Firebase {
 
     // ** Assesments API ***
     assesments = () => this.db.ref('assesments');
-    doUpdateExerciseByID = (id, values) =>
+    doUpdateAssesmentByID = (id, values) =>
 	this.db.ref('assesments/' + id).update(values);
 
 

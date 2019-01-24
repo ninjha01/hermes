@@ -18,8 +18,8 @@ class ExerciseChangeForm extends Component {
 			 "equipment": this.state.equipment,
 			 "instructions": this.state.instructions,
 			 "primaryVideoID": this.state.primaryVideoID,
-			 "reps": this.state.reps,
-			 "sets": this.state.sets}
+			 "reps": parseInt(this.state.reps),
+			 "sets": parseInt(this.state.sets)}
 
 	this.setState({loading: true})
 	//WARNING: Doesn't update loading
@@ -35,7 +35,18 @@ class ExerciseChangeForm extends Component {
 	if (videoFile && videoFile.size > 0) {
 	    this.props.firebase //Abstract away
 		.storage.ref("exercise_videos/").child(fields.primaryVideoID).put(videoFile)
-		.then(() => this.setState({loading: false}));
+		.then(() => {
+		    this.setState({loading: false})
+		    this.props.firebase.storage.ref('exercise_videos/')
+			.child(fields.primaryVideoID)
+			.getDownloadURL()
+			.then((result) => {
+			    this.props.firebase
+				.doUpdateExerciseByID(this.state.uid,
+						      {primaryVideoUrl: result})
+			    this.setState({ videoURL: result })
+			});
+		});
 	} else {
 	    this.setState({loading: false});
 	}
@@ -63,7 +74,7 @@ class ExerciseChangeForm extends Component {
 
 	//Validate
 	const isInvalid = false;
-		if (loading) {
+	if (loading) {
 	    return (
 		    <LoadingSpinner />
 	    );

@@ -10,7 +10,7 @@ class ExerciseView extends Component {
 	const exercise = this.state;
 	return (
 		<li key={exercise.id}>
-		<span><strong>ID:</strong> {exercise.id}</span>
+		<span><strong>ID:</strong> {exercise.uid}</span>
 		<br></br>
 		<span><strong>Title:</strong> {exercise.title}</span>
 		<br></br>
