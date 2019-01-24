@@ -15,10 +15,11 @@ class Exercise: Codable {
     var startDateTime: Date
     var endDateTime: Date
     var completed: Bool
-    var primaryVideoUrl: String
+    var primaryVideoFilename: String
     var secondaryMultimediaFilenames: [String]
     var sets: Int
     var reps: Int
+    var intensity: String
     var equipment: String
 
     init() {
@@ -33,24 +34,26 @@ class Exercise: Codable {
         self.startDateTime = Calendar.current.date(byAdding: .day, value: day, to: dateFormatter.date(from: "2018-12-01")!)!
         self.endDateTime = Calendar.current.date(byAdding: .hour, value: hour, to: startDateTime)!
         self.completed = [true, false].randomElement()!
-        self.primaryVideoUrl = ""
+        self.primaryVideoFilename = "output"
         self.secondaryMultimediaFilenames = [["secondary"], []].randomElement()!
         self.sets = [1,2,3,4,5,6,7,8,9,10].randomElement()!
         self.reps = [1,2,3,4,5,6,7,8,9,10].randomElement()!
+        self.intensity = ["High", "Medium", "Low"].randomElement()!
         self.equipment = ["None", "Barbells", "Yoga Mat", "Foam Roller"].randomElement()!
     }
     
-    init(key: String, title: String, instructions: String, startDateTime: Date, endDateTime: Date, completed: Bool, primaryVideoUrl: String, secondaryMultimediaFilenames: [String], sets: Int, reps: Int, equipment: String) {
+    init(key: String, title: String, instructions: String, startDateTime: Date, endDateTime: Date, completed: Bool, primaryVideoFilename: String, secondaryMultimediaFilenames: [String], sets: Int, reps: Int, intensity: String, equipment: String) {
         self.key = key
         self.title = title
         self.instructions = instructions
         self.startDateTime = startDateTime
         self.endDateTime = endDateTime
         self.completed = completed
-        self.primaryVideoUrl = primaryVideoUrl
+        self.primaryVideoFilename = primaryVideoFilename
         self.secondaryMultimediaFilenames = secondaryMultimediaFilenames
         self.sets = sets
         self.reps = reps
+        self.intensity = intensity
         self.equipment = equipment
     }
 

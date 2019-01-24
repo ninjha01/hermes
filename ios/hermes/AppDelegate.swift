@@ -11,7 +11,6 @@ import UserNotifications
 import Firebase
 import FirebaseDatabase
 import FirebaseAuth
-import FirebaseStorage
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var deviceToken: String = "deadbeef"
     var auth: Auth?
-    var databaseRef: DatabaseReference?
-    var storageRef: StorageReference?
+    var ref: DatabaseReference?
     let firebaseDateFormatString = "yyyy-MM-dd HH:mm"
     let firebaseDateFormatter = DateFormatter()
     
@@ -30,8 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         firebaseDateFormatter.dateFormat = firebaseDateFormatString
         FirebaseApp.configure()
         self.auth = Auth.auth()
-        self.databaseRef = Database.database().reference()
-        self.storageRef = Storage.storage().reference()
+        self.ref = Database.database().reference()
         //Notification configure
         UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
         registerForPushNotifications()
@@ -116,12 +113,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //Mark: Firebase
-    
-    // *** User API ***
     func getUserDocument() -> DatabaseReference? {
         let userId = getCurrentUser()?.uid
         if userId != nil {
-            return databaseRef?.child("users").child(userId!)
+            return ref?.child("users").child(userId!)
         } else {
             print("Failed to get User Document")
             return nil
@@ -155,31 +150,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return nil
         }
         return user
-    }
-    
-    // *** Exercise API ***
-    
-    func getExerciseDocument() -> DatabaseReference? {
-        let userId = getCurrentUser()?.uid
-        if userId != nil {
-            return databaseRef?.child("exercises")
-        } else {
-            print("Failed to get User Document")
-            return nil
-        }
-    }
-    
-    // *** Storage API ***
-    func getDownloadURL(path: String) -> NSURL? {
-        // Fetch the download URL
-        let ref = storageRef!.child(path)
-        var downloadUrl: NSURL? = nil
-        ref.downloadURL { url, e in
-            if url != nil {
-                downloadUrl = url as! NSURL
-            }
-        }
-        return downloadUrl
     }
 }
 

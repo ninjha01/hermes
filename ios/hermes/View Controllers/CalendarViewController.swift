@@ -180,27 +180,17 @@ extension CalendarViewController {
     }
     
     //Mark: Exercises
-    
     func getRemoteExercises() {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
-            userDocument!.child("exerciseData").observeSingleEvent(of: .value, with: { (firebaseExerciseData) in
+            userDocument!.child("exercises").observeSingleEvent(of: .value, with: { (firebaseExerciseData) in
                 for child in firebaseExerciseData.children {
-                    let exerciseDatumSnapshot = child as! DataSnapshot
-                    var exerciseDatum = exerciseDatumSnapshot.value as! [String: AnyObject]
-                    exerciseDatum["key"] = exerciseDatumSnapshot.key as AnyObject
-                    let eid = exerciseDatum["eid"] as! String
-                    //Grab exercise and merge in user exerciseDatum
-                    let exerciseDocument = self.appDelegate.getExerciseDocument()
-                    if (exerciseDocument != nil) {
-                        exerciseDocument!.child(eid).observeSingleEvent(of: .value, with: { (exerciseSnapshot) in
-                            var exerciseDict = exerciseSnapshot.value as! [String: AnyObject]
-                            exerciseDict.merge(dict:exerciseDatum)
-                            let exercise = self.parseDictToExercise(exerciseDict: exerciseDict)
-                            if exercise != nil {
-                                self.remoteExercises[exercise!.key] = exercise!
-                            }
-                        })
+                    let exerciseSnapshot = child as! DataSnapshot
+                    var exerciseData = exerciseSnapshot.value as! [String: AnyObject]
+                    exerciseData["key"] = exerciseSnapshot.key as AnyObject
+                    let exercise = self.parseDictToExercise(exerciseDict: exerciseData)
+                    if exercise != nil {
+                        self.remoteExercises[exercise!.key] = exercise!
                     }
                 }
             })
@@ -212,9 +202,10 @@ extension CalendarViewController {
             let title = exerciseDict["title"] as? String,
             let instructions = exerciseDict["instructions"] as? String,
             let completed = exerciseDict["completed"] as? Bool,
-            let primaryVideoUrl = exerciseDict["primaryVideoUrl"] as? String,
+            let primaryVideoFilename = exerciseDict["primaryVideoFilename"] as? String,
             let sets = exerciseDict["sets"] as? Int,
             let reps = exerciseDict["reps"] as? Int,
+            let intensity = exerciseDict["intensity"] as? String,
             let equipment = exerciseDict["equipment"] as? String,
             let startDateTimeString = exerciseDict["startDateTime"] as? String,
             let endDateTimeString = exerciseDict["endDateTime"] as? String
@@ -222,7 +213,6 @@ extension CalendarViewController {
                 print("Failed to parse dict to exercise", exerciseDict)
                 return nil
         }
-        
         guard let startDateTime =  appDelegate.firebaseDateFormatter.date(from: startDateTimeString),
             let endDateTime =  appDelegate.firebaseDateFormatter.date(from: endDateTimeString)
             else {
@@ -232,7 +222,7 @@ extension CalendarViewController {
         
         let secondaryMultimediaFilenames =  exerciseDict["secondaryMultimediaFilenames"] as? [String] ?? []
         
-        return Exercise(key: key, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoUrl: primaryVideoUrl, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, equipment: equipment)
+        return Exercise(key: key, title: title, instructions: instructions, startDateTime: startDateTime, endDateTime: endDateTime, completed: completed, primaryVideoFilename: primaryVideoFilename, secondaryMultimediaFilenames: secondaryMultimediaFilenames, sets: sets, reps: reps, intensity: intensity, equipment: equipment)
     }
     
     //MARK: Assesments
