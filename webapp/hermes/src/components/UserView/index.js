@@ -20,9 +20,9 @@ class UserView extends Component {
 
     populateExercises = (exerciseData) => {
 	var exercises = [];
-	exerciseData.map(exerciseDatum =>
+	Object.values(exerciseData).map(exerciseDatum =>
 	    this.props.firebase.exercises()
-		.child(exerciseDatum.id).on('value', snapshot => {
+		.child(exerciseDatum.eid).on('value', snapshot => {
 		    const exerciseObject = snapshot.val();
 		    Object.assign(exerciseObject, exerciseDatum);
 		    exercises.push(exerciseObject);
@@ -44,7 +44,7 @@ class UserView extends Component {
 	    <details>
 	    <summary><strong>Exercises:</strong></summary>
 	    <ul>
-	    {user.exercises.map(exercise => (
+		{Object.values(user.exercises).map(exercise => (
 		<ExerciseView exercise={exercise} />
 	    ))}
 	    </ul>

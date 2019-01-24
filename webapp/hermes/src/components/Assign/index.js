@@ -100,6 +100,7 @@ class AssignPage extends Component {
 							user.value.uid,
 							formatDateTime(startDateTime),
 							formatDateTime(endDateTime)));
+		    return null;
 		})
 		return null;
 	    })

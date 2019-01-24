@@ -57,6 +57,11 @@ class Firebase {
     getExerciseVideoUrl = (id) =>
 	this.exerciseVideoRef().child(id).getDownloadURL()
 
+    // ** Assesments API ***
+    assesments = () => this.db.ref('assesments');
+    doUpdateExerciseByID = (id, values) =>
+	this.db.ref('assesments/' + id).update(values);
+
 
 }
 

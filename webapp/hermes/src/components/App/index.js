@@ -12,6 +12,7 @@ import AccountPage from '../Account';
 import ExercisePage from '../Exercises';
 import UserPage from '../Users';
 import AssignPage from '../Assign';
+import AssesmentPage from '../Assesments';
 
 import * as ROUTES from '../../constants/routes';
 import { withAuthentication } from '../Session';
@@ -32,6 +33,7 @@ const App = () => (
 	<Route exact path={ROUTES.EXERCISES} component={ExercisePage} />
 	<Route exact path={ROUTES.USERS} component={UserPage} />
 	<Route exact path={ROUTES.ASSIGN} component={AssignPage} />
+	<Route exact path={ROUTES.ASSESMENTS} component={AssesmentPage} />
 	</div>
 	</Router>
 );

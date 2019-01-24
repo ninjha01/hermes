@@ -37,6 +37,9 @@ const NavigationAuth = () => (
 	<Link to={ROUTES.ASSIGN}>Assign</Link>
 	</li>
 	<li>
+	<Link to={ROUTES.ASSESMENTS}>Assesments</Link>
+	</li>
+	<li>
 	<SignOut />
 	</li>
 	</ul>

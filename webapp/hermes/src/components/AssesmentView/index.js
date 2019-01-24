@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class AssesmentView extends Component {
     constructor(props) {
 	super(props);
-	this.state = {...props.values}
+	this.state = {...props}
     }
 
     render() {
@@ -11,8 +11,8 @@ class AssesmentView extends Component {
 	const fromUser = this.state.fromUser;
 	if (fromUser) {
 	    return (
-		<li key={assesment.id}>
-		<span><strong>ID:</strong> {assesment.id}</span>
+		<li key={assesment.uid}>
+		<span><strong>ID:</strong> {assesment.uid}</span>
 		<br></br>
 		<span><strong>Title:</strong> {assesment.title}</span>
 		<br></br>
@@ -51,8 +51,8 @@ class AssesmentView extends Component {
 	    );
 	} else {
 	    return(
-		<li key={assesment.id}>
-		<span><strong>ID:</strong> {assesment.id}</span>
+		    <li key={assesment.uid}>
+		<span><strong>ID:</strong> {assesment.uid}</span>
 		<br></br>
 		<span><strong>Title:</strong> {assesment.title}</span>
 		<br></br>
