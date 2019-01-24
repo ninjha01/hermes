@@ -1,20 +1,25 @@
-const datesBetween = (startDate, endDate) => {
+const datesBetween = (startDate, stopDate) => {
+    var dateArray = new Array();
     var currentDate = startDate;
-    var stopDate = new Date()
-    stopDate.setDate(endDate.getDate());
-    var dates = [];
-    while (currentDate <= stopDate)  {
-	dates.push(currentDate);
-	const nextDate = new Date();
-	nextDate.setDate(currentDate.getDate() + 1);
-	currentDate = nextDate;
+    while (currentDate <= stopDate) {
+        dateArray.push(new Date (currentDate));
+        currentDate = currentDate.addDays(1);
     }
-    return dates;
+    return dateArray;
+};
+
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
 };
 
 const formatDateTime = (datetime) => {
     const dateFormatter = require('dateformat')
-    const formatString = "yyyy-MM-dd HH:mm";
+    const formatString = "yyyy-mm-dd HH:mm";
+    console.log(datetime)
+    console.log(dateFormatter(datetime, formatString))
+
     return dateFormatter(datetime, formatString)
 };
 

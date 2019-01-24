@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "dateformat": "^3.0.3",
-    "firebase": "^5.7.3",
+    "firebase": "^5.8.0",
     "firebase-auth": "^0.1.2",
     "moment": "^2.24.0",
     "react": "^16.7.0",
