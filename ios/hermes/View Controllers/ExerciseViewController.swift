@@ -22,7 +22,6 @@ class ExerciseViewController: UIViewController {
     
     @IBOutlet weak var setTextView: UITextView!
     @IBOutlet weak var repsTextView: UITextView!
-    @IBOutlet weak var intensityTextView: UITextView!
     @IBOutlet weak var equipmentTextView: UITextView!
     
     var delegate: CalendarViewController?
@@ -48,8 +47,9 @@ class ExerciseViewController: UIViewController {
     }
     
     func initPrimaryVideo() {
-        let mp4Name = self.exercise!.primaryVideoFilename
-        let mp4URL = Bundle.main.url(forResource: mp4Name, withExtension: "mp4")
+        let mp4Name = self.exercise!.primaryVideoUrl
+        debugPrint(mp4Name)
+        let mp4URL = URL(string: mp4Name)
         
         // initialize the video player with the url
         self.player = AVQueuePlayer(url: mp4URL!)
@@ -75,7 +75,6 @@ class ExerciseViewController: UIViewController {
 
         self.setTextView.text = String (self.exercise!.sets)
           self.repsTextView.text = String (self.exercise!.reps)
-          self.intensityTextView.text = self.exercise!.intensity
           self.equipmentTextView.text = self.exercise!.equipment
     }
     func initSecondaryMultimedia() {
@@ -95,7 +94,7 @@ class ExerciseViewController: UIViewController {
     func updateExerciseByKey(key: String, valueDict: [String: AnyObject]) {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
-            userDocument!.child("exercises").child(key).updateChildValues(["completed": true])
+            userDocument!.child("exerciseData").child(key).updateChildValues(["completed": true])
         } else {
             print("Failed to update exercise by key", key, valueDict)
         }
