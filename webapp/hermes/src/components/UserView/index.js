@@ -12,6 +12,8 @@ class UserView extends Component {
 	this.state = { ...props.user };
 	this.state.exercises = [];
 	this.populateExercises(this.state.exerciseData)
+	this.state.assesments = [];
+	this.populateAssesments(this.state.assesmentData)
     }
 
     onChange = event => {
@@ -20,16 +22,39 @@ class UserView extends Component {
 
     populateExercises = (exerciseData) => {
 	var exercises = [];
-	Object.values(exerciseData).map(exerciseDatum =>
-	    this.props.firebase.exercises()
-		.child(exerciseDatum.eid).on('value', snapshot => {
-		    const exerciseObject = snapshot.val();
-		    Object.assign(exerciseObject, exerciseDatum);
-		    exercises.push(exerciseObject);
-		    this.setState({exercises:exercises});
-		})
-	)
+	try {
+	    Object.values(exerciseData).map(exerciseDatum =>
+		this.props.firebase.exercises()
+		    .child(exerciseDatum.eid).on('value', snapshot => {
+			const exerciseObject = snapshot.val();
+			Object.assign(exerciseObject, exerciseDatum);
+			exerciseObject["uid"] = snapshot.key;
+			exercises.push(exerciseObject);
+			this.setState({exercises:exercises});
+		    })
+	    )
+	} catch {
+	    console.log("User has no exerciseData")
+	}
     }
+
+    populateAssesments = (assesmentData) => {
+	var assesments = [];
+	try {
+	    Object.values(assesmentData).map(assesmentDatum =>
+		this.props.firebase.assesments()
+		    .child(assesmentDatum.eid).on('value', snapshot => {
+			const assesmentObject = snapshot.val();
+			Object.assign(assesmentObject, assesmentDatum);
+			assesments.push(assesmentObject);
+			this.setState({assesments:assesments});
+		    })
+	    )
+	} catch {
+	    console.log("User has no assesmentData")
+	}
+    }
+    
     
     render() {
 	const user = this.state;
@@ -44,7 +69,7 @@ class UserView extends Component {
 	    <details>
 	    <summary><strong>Exercises:</strong></summary>
 	    <ul>
-		{Object.values(user.exercises).map(exercise => (
+	    {Object.values(user.exercises).map(exercise => (
 		<ExerciseView exercise={exercise} />
 	    ))}
 	    </ul>
