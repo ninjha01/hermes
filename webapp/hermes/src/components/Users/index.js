@@ -38,16 +38,16 @@ class UserPage extends Component {
     }
 
     userDisplayList = (users) => (
-	    <ul>
-	    {users.map(user => (
-		    <li key={user.uid}>
-		    <span><strong>ID:</strong> {user.uid}</span>
-		    <br></br>
-		    <span><strong>Email:</strong> {user.email}</span>
-		    <br></br>
-		    <input onClick={() => this.setState({editing: user})} type="button" value="View"/>
-	    	    </li>
-	    ))}
+	<ul>
+	{users.map(user => (
+	    <li key={user.uid}>
+	    <span><strong>ID:</strong> {user.uid}</span>
+	    <br></br>
+	    <span><strong>Email:</strong> {user.email}</span>
+	    <br></br>
+	    <input onClick={() => this.setState({editing: user})} type="button" value="View"/>
+	    </li>
+	))}
 	</ul>
     );
 
@@ -57,22 +57,22 @@ class UserPage extends Component {
 	const userDisplayList = this.userDisplayList(users);
 	if (editing === null) {
 	    return (
-		    <div>
-		    <h1>Users</h1>
-		    {loading && <div>Loading ...</div>}
-		    <div>
-		    {userDisplayList}
-		    </div>
-		    <hr />
-		    </div>
+		<div>
+		<h1>Users</h1>
+		{loading && <div>Loading ...</div>}
+		<div>
+		{userDisplayList}
+		</div>
+		<hr />
+		</div>
 	    );
 	} else {
 	    return(
-		    <div>
-		    <h1>{editing.title}</h1>
-		    <UserView user={editing} />
-		    <input onClick={() => this.setState({editing: null})} type="button" value="Done"/>
-		    </div>
+		<div>
+		<h1>{editing.title}</h1>
+		<UserView user={editing} />
+		<input onClick={() => this.setState({editing: null})} type="button" value="Done"/>
+		</div>
 	    )
 	}
     }

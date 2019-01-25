@@ -41,10 +41,10 @@ class ExercisePage extends Component {
     exerciseDisplayList = (exercises) => (
 	    <ul>
 	    {exercises.map(exercise => (
-		    <span>
+		    <li key={exercise.uid}>
 		    <ExerciseView exercise={exercise} />
 		    <input onClick={() => this.setState({editing: exercise})} type="button" value="Update"/>
-		    </span>
+		    </li>
 	    ))}
 	</ul>
     );

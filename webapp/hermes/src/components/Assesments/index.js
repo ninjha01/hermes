@@ -41,10 +41,12 @@ class AssesmentPage extends Component {
     assesmentDisplayList = (assesments) => (
 	    <ul>
 	    {assesments.map(assesment => (
+		    <li key={assesment.uid}>
 		    <span>
 		    <AssesmentView assesment={assesment} />
 		    <input onClick={() => this.setState({editing: assesment})} type="button" value="Update"/>
 		    </span>
+		    </li>
 	    ))}
 	</ul>
     );

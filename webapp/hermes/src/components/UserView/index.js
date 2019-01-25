@@ -77,7 +77,7 @@ class UserView extends Component {
 	    <details>
 	    <summary><strong>Assesments:</strong></summary>
 	    <ul>
-	    {user.assesments.map(assesment => (
+	    {Object.values(user.assesments).map(assesment => (
 		<AssesmentView values={{assesment: assesment, fromUser: true}} />
 	    ))}
 	    </ul>

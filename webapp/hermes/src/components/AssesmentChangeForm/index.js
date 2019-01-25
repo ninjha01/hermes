@@ -36,7 +36,7 @@ class AssesmentChangeForm extends Component {
 	const {assesment, loading, error} = this.state
 
 	//Validate
-	const isInvalid = false;
+	//const isInvalid = false;
 	if (loading) {
 	    return (
 		    <LoadingSpinner />

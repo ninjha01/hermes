@@ -9,7 +9,7 @@ class ExerciseView extends Component {
     render() {
 	const exercise = this.state;
 	return (
-	    <li key={exercise.uid}>
+	    <span>
 	    <span><strong>ID: </strong>{exercise.uid}</span>
 	    <br></br>
 	    <span><strong>Title: </strong>{exercise.title}</span>
@@ -26,7 +26,7 @@ class ExerciseView extends Component {
 		{exercise.startDateTime}<br></br></span>}
 	    {exercise.completed && <span><strong>Completed: </strong>
 		True<br></br></span>}
-	    </li>
+	    </span>
 	);
     }
 }
