@@ -94,7 +94,7 @@ class ExerciseViewController: UIViewController {
     func updateExerciseByKey(key: String, valueDict: [String: AnyObject]) {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
-            userDocument!.child("exercises").child(key).updateChildValues(["completed": true])
+            userDocument!.child("exerciseData").child(key).updateChildValues(["completed": true])
         } else {
             print("Failed to update exercise by key", key, valueDict)
         }
