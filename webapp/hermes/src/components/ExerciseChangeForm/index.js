@@ -27,8 +27,7 @@ class ExerciseChangeForm extends Component {
 	    .doUpdateExerciseByID(this.state.uid, fields)
 	    .catch(error => {
 		this.setState({ error: error });
-	    });
-	
+	    });	
 	
 	const videoFile = this.refs.videoUpload.files[0]
 	
