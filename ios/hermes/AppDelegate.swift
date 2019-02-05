@@ -61,11 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Notification configure
         UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
         registerForPushNotifications()
-        //If launched from Notification...
-        let notificationOption = launchOptions?[.remoteNotification]
-        if let notification = notificationOption as? [String: AnyObject] {
-            launchAssesment(aps: notification)
-        }
         return true
     }
     
@@ -125,20 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Failed to register for remote notifications with error: \(error)")
     }
     
-    func launchAssesment(aps: [String: AnyObject]) {
-        //Get viewcontroller from navigation controller
-        let rootViewController = window?.rootViewController as! UINavigationController
-        let calendarVC = rootViewController.viewControllers[0] as! CalendarViewController
-        calendarVC.notificationPayload = aps
-        calendarVC.performSegue(withIdentifier: "toAssesment", sender: self)
-    }
-    
     func application( _ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        guard let aps = userInfo["aps"] as? [String: AnyObject] else {
-            completionHandler(.failed)
-            return
-        }
-        launchAssesment(aps: aps)
     }
     
     //Mark: Firebase
