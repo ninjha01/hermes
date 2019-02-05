@@ -25,7 +25,6 @@ class LoginViewController: UIViewController {
         
         self.appDelegate.auth!.signIn(withEmail: emailTextField.text!, password: passwordTextField.text!) { (user, error) in
             if error == nil {
-                self.appDelegate.updateUser(valueDict: ["deviceToken": self.appDelegate.deviceToken] as [String: AnyObject])
                 self.performSegue(withIdentifier: "loginToCalendar", sender: self)
             }
             else{

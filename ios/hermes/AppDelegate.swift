@@ -12,12 +12,14 @@ import Firebase
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import FirebaseMessaging
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var deviceToken: String = "deadbeef"
+    var fcmToken: String = "fcmToken not set"
+    var deviceToken: String = "deviceToken not set"
     var auth: Auth?
     var databaseRef: DatabaseReference?
     var storageRef: StorageReference?
@@ -32,6 +34,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.auth = Auth.auth()
         self.databaseRef = Database.database().reference()
         self.storageRef = Storage.storage().reference()
+        
+        // [START set_messaging_delegate]
+        Messaging.messaging().delegate = self
+        // [END set_messaging_delegate]
+        // Register for remote notifications. This shows a permission dialog on first run, to
+        // show the dialog at a more appropriate time move this registration accordingly.
+        // [START register_for_notifications]
+        if #available(iOS 10.0, *) {
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: {_, _ in })
+        } else {
+            let settings: UIUserNotificationSettings =
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            application.registerUserNotificationSettings(settings)
+        }
+        
+        application.registerForRemoteNotifications()
+
+        
         //Notification configure
         UNUserNotificationCenter.current().delegate = self as UNUserNotificationCenterDelegate
         registerForPushNotifications()
@@ -183,6 +209,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate : MessagingDelegate {
+    // [START refresh_token]
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        self.fcmToken = fcmToken
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        self.updateUser(valueDict: ["fcmToken": self.fcmToken] as [String: AnyObject])
+    }
+    // [END refresh_token]
+}
 
 //Recieve Banner even when app is in foreground
 extension AppDelegate : UNUserNotificationCenterDelegate {

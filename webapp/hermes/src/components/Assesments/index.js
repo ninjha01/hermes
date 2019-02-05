@@ -14,6 +14,7 @@ class AssesmentPage extends Component {
 	    assesments: [],
 	    editing: null
 	};
+	this.notifications = new Notifications();
     }
 
     componentDidMount() {
@@ -45,11 +46,17 @@ class AssesmentPage extends Component {
 		    <span>
 		    <AssesmentView assesment={assesment} />
 		    <input onClick={() => this.setState({editing: assesment})} type="button" value="Update"/>
+		   // <input onClick={this.sendNotification} type="button" value="Send Notification"/>
 		    </span>
 		    </li>
 	    ))}
 	</ul>
     );
+
+    sendNotification = () => {
+	console.log("Clicked")
+    }
+    
     
     render() {
 	const { assesments, loading, editing } = this.state;
