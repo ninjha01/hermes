@@ -14,7 +14,6 @@ class AssesmentPage extends Component {
 	    assesments: [],
 	    editing: null
 	};
-	this.notifications = new Notifications();
     }
 
     componentDidMount() {
@@ -46,7 +45,7 @@ class AssesmentPage extends Component {
 		    <span>
 		    <AssesmentView assesment={assesment} />
 		    <input onClick={() => this.setState({editing: assesment})} type="button" value="Update"/>
-		   // <input onClick={this.sendNotification} type="button" value="Send Notification"/>
+		   <input onClick={this.sendNotification} type="button" value="Send Notification"/>
 		    </span>
 		    </li>
 	    ))}
@@ -54,7 +53,10 @@ class AssesmentPage extends Component {
     );
 
     sendNotification = () => {
-	console.log("Clicked")
+	var fcmTokens = ["dWQIGOJtQtc:APA91bEjKgGkFsj2xJZgyFrGgcKSXmo-GL6vMbih8Y-0dyFFALOMtBZyRa_gv_uzNQdIRkmp-Yz49-k6JTAwuclw4gchHvqmUZkF1szyNwGzFCnazgF-bfU45C63dGZIqczR-DrZVXcc"]
+	var title = "New Assesment"
+	var body = "You have a new Assesment!"
+	this.props.firebase.sendNotification(fcmTokens, title, body)
     }
     
     

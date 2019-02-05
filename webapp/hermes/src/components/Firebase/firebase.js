@@ -3,6 +3,8 @@ import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
 
+const request = require('request');
+
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -47,6 +49,7 @@ class Firebase {
 				      endDateTime: endDateTime,
 				      completed: false})
     }
+    
     // *** Exercise API ***
     exercises = () => this.db.ref('exercises');
     exerciseVideoRef = () => this.storage.ref('exercise_videos/')
@@ -57,12 +60,40 @@ class Firebase {
     getExerciseVideoUrl = (id) =>
 	this.exerciseVideoRef().child(id).getDownloadURL()
 
-    // ** Assesments API ***
+    // *** Assesments API ***
     assesments = () => this.db.ref('assesments');
     doUpdateAssesmentByID = (id, values) =>
 	this.db.ref('assesments/' + id).update(values);
 
+    // *** Notifications API ***
+    sendNotification = (fcmTokens, title, body) => {
+	var key = 'AAAAOTy7Las:APA91bFPBWu6-tp83OSMzWEIno-HPDVT5Y7TV9SHTV9RAUgIzjEmnVxzkp0qUmS0IBJ6UJMZZaoeYE2jbqkaTkqyzwPQC4fSuCgUaf9AVLRbIFECBO1XWWA-Th7nHDimrpiEF4iUHdBd';
+	var notification = {
+	    'title': title,
+	    'body': body,
+	    'icon': 'firebase-logo.png',
+	    'click_action': 'http://localhost:8081'
+	};
 
+	fcmTokens.map((fcmToken) => {
+	    var to = fcmToken;
+	    fetch('https://fcm.googleapis.com/fcm/send', {
+		'method': 'POST',
+		'headers': {
+		    'Authorization': 'key=' + key,
+		    'Content-Type': 'application/json'
+		},
+		'body': JSON.stringify({
+		    'notification': notification,
+		    'to': to
+		})
+	    }).then(function(response) {
+		console.log(response);
+	    }).catch(function(error) {
+		console.error(error);
+	    })
+	});
+    }
 }
 
 export default Firebase;
