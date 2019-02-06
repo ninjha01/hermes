@@ -17,9 +17,6 @@ Date.prototype.addDays = function(days) {
 const formatDateTime = (datetime) => {
     const dateFormatter = require('dateformat')
     const formatString = "yyyy-mm-dd HH:mm";
-    console.log(datetime)
-    console.log(dateFormatter(datetime, formatString))
-
     return dateFormatter(datetime, formatString)
 };
 

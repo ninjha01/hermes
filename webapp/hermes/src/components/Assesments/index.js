@@ -52,14 +52,6 @@ class AssesmentPage extends Component {
 	</ul>
     );
 
-    sendNotification = () => {
-	var fcmTokens = ["dWQIGOJtQtc:APA91bEjKgGkFsj2xJZgyFrGgcKSXmo-GL6vMbih8Y-0dyFFALOMtBZyRa_gv_uzNQdIRkmp-Yz49-k6JTAwuclw4gchHvqmUZkF1szyNwGzFCnazgF-bfU45C63dGZIqczR-DrZVXcc"]
-	var title = "New Assesment"
-	var body = "You have a new Assesment!"
-	this.props.firebase.sendNotification(fcmTokens, title, body)
-    }
-    
-    
     render() {
 	const { assesments, loading, editing } = this.state;
 	const assesmentDisplayList = this.assesmentDisplayList(assesments);
@@ -81,7 +73,6 @@ class AssesmentPage extends Component {
 		    <div>
 		    <h1>{editing.title}</h1>
 		    <AssesmentChangeForm assesment={editing} />
-		    <input onClick={() => this.setState({editing: null})} type="button" value="Done"/>
 		    </div>
 	    )
 	}
