@@ -1,6 +1,20 @@
 {
-  "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
-  }
+    "rules": {
+	"roles": {
+	    ".read": true,
+	    ".write": false      
+	},
+	"users": {
+	    ".read": "auth != null",
+	    ".write": "auth != null"
+	},
+	"assesments": {
+	    ".read": "auth != null",
+	    ".write": "auth != null"
+	},
+	"exercises": {
+	    ".read": "auth != null",
+	    ".write": "auth != null"
+	}
+    }
 }
