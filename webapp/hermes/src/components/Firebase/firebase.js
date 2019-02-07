@@ -36,6 +36,15 @@ class Firebase {
     doPasswordUpdate = password =>
 	this.auth.currentUser.updatePassword(password);
 
+    // *** Roles API ***
+    roles = () => this.db.ref('roles')
+    checkAdmin = (email) => {
+	const userEmail = email.replace(".", "")
+	return this.roles().child(userEmail).child("admin").once('value', snapshot => {
+	    return snapshot.val();
+	});
+    }
+    
     // *** User API ***
     users = () => this.db.ref('users');
     user = uid => this.db.ref("users/" + uid);
