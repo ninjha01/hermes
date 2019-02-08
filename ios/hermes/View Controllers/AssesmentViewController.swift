@@ -111,34 +111,23 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
         let today = Date()
         let todayString = dateFormatter.string(from: today)
         let dateAssignedString = dateFormatter.string(from: self.assesment.dateAssigned)
-        let valueDict = ["painScore": self.assesment.painScore!, "painSites": self.assesment.painSites, "questions": self.assesment.questions, "dateAssigned": dateAssignedString, "dateCompleted": todayString] as [String: AnyObject]
+        let valueDict = ["painScore": self.assesment.painScore!, "painSites": self.assesment.painSites,
+                         "questions": self.assesment.questions, "dateAssigned": dateAssignedString,
+                         "completed": true, "dateCompleted": todayString] as [String: AnyObject]
         self.updateAssesmentByKey(key: self.assesment.key!, valueDict: valueDict)
-        //Return to Calendar
         performSegue(withIdentifier: "assesmentToCalendar", sender: self)
     }
     
     func updateAssesmentByKey(key: String, valueDict: [String: AnyObject]) {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
-            let assesmentNode = userDocument!.child("assesments").child(key)
+            let assesmentNode = userDocument!.child("assesmentData").child(key)
             assesmentNode.updateChildValues(valueDict)
         } else {
             print("Failed to update assesment by key", key, valueDict)
         }
     }
-    
-    func parseAPSForAssesment(aps: [String: AnyObject]) {
-        self.assesment.key = aps["key"] as? String
-        self.assesment.title = aps["title"] as? String
-        for site in aps["painSites"] as! [String] {
-            self.assesment.painSites[site] = false
-        }
-        for question in aps["questions"] as! [String] {
-            self.assesment.questions[question] = false
-        }
-        self.assesment.dateAssigned = dateFormatter.date(from: aps["dateAssigned"] as! String)!
-    }
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

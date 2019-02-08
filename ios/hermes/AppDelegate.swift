@@ -166,13 +166,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // *** Exercise API ***
-    
     func getExerciseDocument() -> DatabaseReference? {
-        let userId = getCurrentUser()?.uid
-        if userId != nil {
+        let exerciseId = getCurrentUser()?.uid
+        if exerciseId != nil {
             return databaseRef?.child("exercises")
         } else {
-            print("Failed to get User Document")
+            print("Failed to get Exercise Document")
+            return nil
+        }
+    }
+    
+    // *** Assesment API ***
+    func getAssesmentDocument() -> DatabaseReference? {
+        let assesmentId = getCurrentUser()?.uid
+        if assesmentId != nil {
+            return databaseRef?.child("assesments")
+        } else {
+            print("Failed to get Assesment Document")
             return nil
         }
     }

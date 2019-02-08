@@ -149,10 +149,6 @@ class CalendarViewController: UIViewController {
             destinationVC.delegate = self
             destinationVC.exercise = currentExercise
         }
-        if segue.identifier == "notificationToAssesment" {
-            let destinationVC = segue.destination as! AssesmentViewController
-            destinationVC.parseAPSForAssesment(aps: self.notificationPayload!)
-        }
         if segue.identifier == "assesmentPopover" {
             let destinationVC = segue.destination as! AssesmentTableViewController
             destinationVC.assesments = getPendingAssesments()
@@ -239,14 +235,22 @@ extension CalendarViewController {
     func getRemoteAssesments() {
         let userDocument = appDelegate.getUserDocument()
         if (userDocument != nil) {
-            userDocument!.child("assesments").observeSingleEvent(of: .value, with: { (firebaseAssesmentData) in
+            userDocument!.child("assesmentData").observeSingleEvent(of: .value, with: { (firebaseAssesmentData) in
                 for child in firebaseAssesmentData.children {
                     let assesmentSnapshot = child as! DataSnapshot
-                    var assesmentData = assesmentSnapshot.value as! [String: AnyObject]
-                    assesmentData["key"] = assesmentSnapshot.key as AnyObject
-                    let assesment = self.parseDictToAssesment(assesmentDict: assesmentData)
-                    if assesment != nil {
-                        self.remoteAssesments[assesment!.key!] = assesment!
+                    var assesmentDatum = assesmentSnapshot.value as! [String: AnyObject]
+                    assesmentDatum["key"] = assesmentSnapshot.key as AnyObject
+                    let aid = assesmentDatum["aid"] as! String
+                    let assesmentDocument = self.appDelegate.getAssesmentDocument()
+                    if (assesmentDocument != nil) {
+                        assesmentDocument!.child(aid).observeSingleEvent(of: .value, with: { (assesmentSnapshot) in
+                            var assesmentDict = assesmentSnapshot.value as! [String: AnyObject]
+                            assesmentDict.merge(dict:assesmentDatum)
+                            let assesment = self.parseDictToAssesment(assesmentDict: assesmentDict)
+                            if assesment != nil {
+                                self.remoteAssesments[assesment!.key!] = assesment!
+                            }
+                        })
                     }
                 }
             })
@@ -255,17 +259,30 @@ extension CalendarViewController {
         }
     }
     
+    //TODO: Fails to parse completed assesments, not critical
     func parseDictToAssesment(assesmentDict: [String: AnyObject]) -> Assesment? {
         guard let key = assesmentDict["key"] as? String,
             let title = assesmentDict["title"] as? String,
-            let painScore = assesmentDict["painScore"] as? Int,
-            let painSites = assesmentDict["painSites"] as? [String: Bool],
-            let questions = assesmentDict["questions"] as? [String: Bool],
+            let painSites = assesmentDict["painSites"] as? [String],
+            let questions = assesmentDict["questions"] as? [String],
             let dateAssignedString = assesmentDict["dateAssigned"] as? String
             else {
                 print("Failed to parse Dict to assesment", assesmentDict)
                 return nil
         }
+        
+        let painScore = 0
+        
+        var painSiteDict: [String: Bool] = [:]
+        for (_, site) in painSites.enumerated() {
+            painSiteDict[site] = false
+        }
+        
+        var questionsDict: [String: Bool] = [:]
+        for (_, question) in questions.enumerated() {
+            questionsDict[question] = false
+        }
+        
         guard let dateAssigned = appDelegate.firebaseDateFormatter.date(from: dateAssignedString)
             else {
                 print("Failed to parse dateAssigned string", dateAssignedString, self.appDelegate.firebaseDateFormatString)
@@ -281,9 +298,9 @@ extension CalendarViewController {
                     print("Failed to parse dateCompleted", dateCompletedString!, self.appDelegate.firebaseDateFormatString)
                     return nil
             }
-            return Assesment(key: key, title: title, painScore: painScore, painSites: painSites, questions: questions, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
+            return Assesment(key: key, title: title, painScore: painScore, painSites: painSiteDict, questions: questionsDict, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
         }
-        return Assesment(key: key, title: title, painScore: painScore, painSites: painSites, questions: questions, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
+        return Assesment(key: key, title: title, painScore: painScore, painSites: painSiteDict, questions: questionsDict, dateAssigned: dateAssigned, dateCompleted: dateCompleted)
     }
     
     //Refresh Button
