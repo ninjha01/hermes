@@ -42,7 +42,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
     }
     
     func initNavbar() {
-        self.navigationController!.navigationBar.topItem?.title = self.title
+        self.navigationController!.navigationBar.topItem?.title = self.assesment.title
     }
     
     func initPicker() {
@@ -59,6 +59,7 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             let color: UIColor = .blue
             radioButton.setTitleColor(color, for: []);
             radioButton.iconColor = color;
+            radioButton.isIconOnRight = true;
             radioButton.indicatorColor = color;
             radioButton.setTitle(site.key, for: [])
             radioButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
@@ -81,11 +82,12 @@ class AssesmentViewController: UIViewController, UIPickerViewDelegate, UIPickerV
             let color: UIColor = .blue
             radioButton.setTitleColor(color, for: []);
             radioButton.iconColor = color;
+            radioButton.isIconOnRight = true;
             radioButton.indicatorColor = color;
             radioButton.setTitle(question.key, for: [])
             radioButton.contentHorizontalAlignment = UIControl.ContentHorizontalAlignment.left
             radioButton.isIconSquare = true
-            radioButton.isIconOnRight = false
+            radioButton.isIconOnRight = true;
             radioButton.titleLabel?.lineBreakMode = .byWordWrapping
             questionButtons.append(radioButton)
             self.questionsButtonStack.addArrangedSubview(radioButton)
