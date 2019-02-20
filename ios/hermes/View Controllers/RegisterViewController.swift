@@ -35,6 +35,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         else{
             self.appDelegate.auth!.createUser(withEmail: emailTextField.text!, password: passwordTextField.text!){ (user, error) in
                 if error == nil {
+                    self.appDelegate.updateUser(valueDict: ["email": self.emailTextField.text! as AnyObject])
                     self.performSegue(withIdentifier: "registerToCalendar", sender: self)
                 }
                 else{

@@ -171,7 +171,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="opQ-EY-a5k">
-                                <rect key="frame" x="0.0" y="396" width="375" height="356"/>
+                                <rect key="frame" x="0.0" y="396" width="375" height="346"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="detail" rowHeight="50" id="1O1-wf-mcq" customClass="ScheduleTableViewCell" customModule="hermes" customModuleProvider="target">
@@ -188,6 +188,9 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="AMT-98-ROu"/>
                                 </connections>
                             </tableView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pTN-4V-arV">
+                                <rect key="frame" x="0.0" y="746" width="375" height="2"/>
+                            </progressView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wAU-Oq-Ah3">
                                 <rect key="frame" x="0.0" y="752" width="375" height="44"/>
                                 <constraints>
@@ -212,6 +215,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="pTN-4V-arV" firstAttribute="width" secondItem="wAU-Oq-Ah3" secondAttribute="width" id="186-xj-6bt"/>
                             <constraint firstItem="opQ-EY-a5k" firstAttribute="top" secondItem="KIs-31-OD7" secondAttribute="bottom" id="29y-Sx-FYS"/>
                             <constraint firstItem="RHL-aL-CHT" firstAttribute="trailing" secondItem="7EL-yy-FxA" secondAttribute="trailing" id="5jV-3s-vNg"/>
                             <constraint firstItem="KIs-31-OD7" firstAttribute="top" secondItem="7EL-yy-FxA" secondAttribute="bottom" id="Ca4-0v-PU1"/>
@@ -220,11 +224,13 @@
                             <constraint firstAttribute="bottom" secondItem="wAU-Oq-Ah3" secondAttribute="bottom" constant="16" id="MF4-Kg-Nl8"/>
                             <constraint firstItem="7EL-yy-FxA" firstAttribute="top" secondItem="RHL-aL-CHT" secondAttribute="bottom" id="MVR-bK-QAO"/>
                             <constraint firstItem="RHL-aL-CHT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Qqn-0s-VbH"/>
+                            <constraint firstItem="pTN-4V-arV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="T1j-Hn-drw"/>
                             <constraint firstItem="tU0-zQ-TDE" firstAttribute="trailing" secondItem="RHL-aL-CHT" secondAttribute="trailing" id="XUI-cK-WBW"/>
                             <constraint firstAttribute="trailing" secondItem="wAU-Oq-Ah3" secondAttribute="trailing" id="Z6o-sk-03G"/>
                             <constraint firstItem="tU0-zQ-TDE" firstAttribute="top" secondItem="RHL-aL-CHT" secondAttribute="bottom" id="bUJ-w7-HMA"/>
-                            <constraint firstItem="wAU-Oq-Ah3" firstAttribute="top" secondItem="opQ-EY-a5k" secondAttribute="bottom" id="fVd-WS-st2"/>
+                            <constraint firstItem="pTN-4V-arV" firstAttribute="top" secondItem="opQ-EY-a5k" secondAttribute="bottom" constant="4" id="fVd-WS-st2"/>
                             <constraint firstAttribute="trailing" secondItem="opQ-EY-a5k" secondAttribute="trailing" id="foK-oV-GTR"/>
+                            <constraint firstItem="wAU-Oq-Ah3" firstAttribute="top" secondItem="pTN-4V-arV" secondAttribute="bottom" constant="4" id="h76-LX-jIJ"/>
                             <constraint firstAttribute="trailing" secondItem="RHL-aL-CHT" secondAttribute="trailing" id="l2q-m4-DDI"/>
                             <constraint firstItem="7EL-yy-FxA" firstAttribute="leading" secondItem="RHL-aL-CHT" secondAttribute="leading" id="nz4-ft-QCW"/>
                             <constraint firstItem="RHL-aL-CHT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="pQ3-fh-FgK"/>
@@ -236,6 +242,7 @@
                     <navigationItem key="navigationItem" id="qka-Hc-oMd"/>
                     <connections>
                         <outlet property="calendarView" destination="7EL-yy-FxA" id="qwe-9r-M4t"/>
+                        <outlet property="progressView" destination="pTN-4V-arV" id="5d3-KA-uie"/>
                         <outlet property="separatorViewTopConstraint" destination="Ca4-0v-PU1" id="4Nv-3L-VFJ"/>
                         <outlet property="showTodayButton" destination="7za-QQ-CUI" id="Ld2-vO-np3"/>
                         <outlet property="tableView" destination="opQ-EY-a5k" id="4r8-t5-eFE"/>
@@ -441,7 +448,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="hunter2" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mhu-2h-mLf" userLabel="Password TextField">
+                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mhu-2h-mLf" userLabel="Password TextField">
                                         <rect key="frame" x="0.0" y="118.66666666666663" width="148" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -507,7 +514,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="hunter2" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jOI-au-cPi" userLabel="Password TextField">
+                                    <textField opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jOI-au-cPi" userLabel="Password TextField">
                                         <rect key="frame" x="0.0" y="118.66666666666663" width="148" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -519,7 +526,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="hunter2" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sbt-ng-c9g" userLabel="ReEnter Password TextField">
+                                    <textField opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sbt-ng-c9g" userLabel="ReEnter Password TextField">
                                         <rect key="frame" x="0.0" y="201" width="148" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>

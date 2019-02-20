@@ -19,6 +19,7 @@ class CalendarViewController: UIViewController {
     
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var progressView: UIProgressView!
     @IBOutlet weak var showTodayButton: UIBarButtonItem!
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
     var remoteAssesments: [String: Assesment] = [:]
@@ -79,6 +80,7 @@ class CalendarViewController: UIViewController {
         //Set Navbar root
         self.navigationController?.setViewControllers([self], animated: true)
         self.initNavBar()
+        self.setProgress()
         setupViewNibs()
         showTodayButton.target = self
         showTodayButton.action = #selector(showTodayWithAnimate)
@@ -129,6 +131,26 @@ class CalendarViewController: UIViewController {
         }
     }
     
+    func setProgress() {
+        let today = Date()
+        let relevantExercises = exerciseGroup?[formatter.string(from: today)]
+        var progress = Float(0.0)
+        if relevantExercises != nil {
+            var numCompleted = 0
+            var count = 0
+            for exercise in relevantExercises! {
+                if Calendar.current.isDate(today, inSameDayAs:exercise.startDateTime) {
+                    count += 1
+                    if exercise.completed {
+                        numCompleted += 1
+                    }
+                }
+            }
+            progress = Float(numCompleted) / Float(count)
+        }
+        self.progressView.setProgress(progress, animated: true)
+    }
+
     func getPendingAssesments() -> [Assesment] {
         var pendingAssesments: [Assesment] = []
         for assesment in self.remoteAssesments.values {
@@ -320,6 +342,7 @@ extension CalendarViewController {
             DispatchQueue.main.async {
                 self.getExercise()
                 self.initNavBar()
+                self.setProgress()
                 self.calendarView.visibleDates { [unowned self] (visibleDates: DateSegmentInfo) in
                     self.setupViewsOfCalendar(from: visibleDates)
                 }
