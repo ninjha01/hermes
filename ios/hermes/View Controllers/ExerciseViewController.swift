@@ -28,17 +28,18 @@ class ExerciseViewController: UIViewController {
     
     private var player: AVQueuePlayer?
     private var looper: AVPlayerLooper?
+    private var avpController: AVPlayerViewController?
     var exercise: Exercise?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         DispatchQueue.main.async() { //UI Thread
             self.initNavbar()
-            self.initPrimaryVideo()
             self.initSecondaryMultimedia()
             self.initTextViews()
             self.initDoneButton()
             self.initSecondaryMultimedia()
+            self.initPrimaryVideo()
         }
     }
     
@@ -55,17 +56,12 @@ class ExerciseViewController: UIViewController {
         self.player = AVQueuePlayer(url: mp4URL!)
         looper = AVPlayerLooper(player: self.player!, templateItem: AVPlayerItem(asset: AVAsset(url: mp4URL!)))
         
-        // create a video layer for the player
-        let layer: AVPlayerLayer = AVPlayerLayer(player: player)
-        
-        // make the layer the same size as the container view
-        layer.frame = videoViewContainer.bounds
-        
-        // make the video fill the layer as much as possible while keeping its aspect size
-        layer.videoGravity = AVLayerVideoGravity.resizeAspect
-        
         // add the layer to the container view
-        videoViewContainer.layer.addSublayer(layer)
+        self.avpController = AVPlayerViewController()
+        self.avpController!.player = self.player
+        avpController!.view.frame = videoViewContainer.bounds
+        self.addChild(avpController!)
+        videoViewContainer.addSubview(self.avpController!.view)
         self.player!.play()
     }
     
