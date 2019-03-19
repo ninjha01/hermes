@@ -69,56 +69,61 @@ class ExerciseChangeForm extends Component {
 	this.props.firebase.storage.ref('exercise_videos/').child(videoID)
 	    .getDownloadURL()
 	    .then((result) => 
-		  this.setState({ videoURL: result }));
+		this.setState({ videoURL: result }));
 
 	//Validate
 	const isInvalid = false;
 	if (loading) {
 	    return (
-		    <LoadingSpinner />
+		<LoadingSpinner />
 	    );
 	}
 	else {
 	    return (
-	    	    <form onSubmit={this.onSubmit}>
-		    <span>
-		    <strong>Title:</strong>
-		    <input name="title" value={title} onChange={this.onChange} type="text" placeholder="Title" />
-		    <br></br>
-		    </span>
+	    	<form onSubmit={this.onSubmit}>
+		<span>
+		<strong>Title:</strong>
+		<br></br>
+		<input name="title" value={title} onChange={this.onChange} type="text" placeholder="Title" />
+		<br></br>
+		</span>
 
-		    <span>
-		    <video width="500px" controls src={videoURL} onChange={this.onChange} />
-		    <input ref="videoUpload" text="Update Video" onChange={this.onChange} type="file" accept='.mp4'/>
-		    </span>
-		    <br></br>
-		    
-		    <span>		
-		    <strong>Instructions:</strong>
-		    <input name="instructions" value={instructions} onChange={this.onChange} type="text" placeholder="Instructions" />
-		    <br></br>
-		    </span>
+		<span>
+		<video width="500px" controls src={videoURL} onChange={this.onChange} />
+		<input ref="videoUpload" text="Update Video" onChange={this.onChange} type="file" accept='.mp4'/>
+		</span>
+		<br></br>
+		
+		<span>		
+		<strong>Instructions:</strong>
+		<br></br>
+		<textarea name="instructions" value={instructions} onChange={this.onChange} type="text" placeholder="Instructions" />
+		<br></br>
+		</span>
 
-		    <span>
-		    <strong>Equipment:</strong>
-		    <input name="equipment" value={equipment} onChange={this.onChange} type="text" placeholder="Equipment" />
-		    <br></br>
-		    </span>
+		<span>
+		<strong>Equipment:</strong>
+		<br></br>
+		<input name="equipment" value={equipment} onChange={this.onChange} type="text" placeholder="Equipment" />
+		<br></br>
+		</span>
 
-		    <span>
-		    <strong>Reps:</strong>
-		    <input name="reps" value={reps} onChange={this.onChange} type="text" placeholder="Reps" />
-		    <br></br>
-		    </span>
+		<span>
+		<strong>Reps:</strong>
+		<br></br>
+		<input name="reps" value={reps} onChange={this.onChange} type="text" placeholder="Reps" />
+		<br></br>
+		</span>
 
-		    <span>
-		    <strong>Sets:</strong>
-		    <input name="sets" value={sets} onChange={this.onChange} type="text" placeholder="Sets" />
-		    <br></br>
-		    </span>
-		    
-		    <input value="Update" disabled={isInvalid} type="submit" />
-		    
+		<span>
+		<strong>Sets:</strong>
+		<br></br>
+		<input name="sets" value={sets} onChange={this.onChange} type="text" placeholder="Sets" />
+		<br></br>
+		</span>
+		
+		<input value="Update" disabled={isInvalid} type="submit" />
+		
 		{error && <p>{error.message}</p>}
 		</form>
 	    );
